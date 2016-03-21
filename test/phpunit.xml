@@ -1,0 +1,19 @@
+<phpunit bootstrap="./bootstrap.php" stopOnFailure="false" >
+	<testsuites>
+		<testsuite name="source">
+			<directory suffix=".php">./src</directory>
+		</testsuite>
+	</testsuites>
+	<logging>
+		<log type="coverage-html" target="code_coverage/html" charset="UTF-8" strict="true" yui="true" highlight="false" lowUpperBound="49" highLowerBound="75" checkForUnintentionallyCoveredCode="true" />
+		<log type="coverage-clover" target="code_coverage/clover.xml"/>
+	</logging>
+	<filter>
+		<whitelist processUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">./../src</directory>
+			<exclude>
+				<directory>./vendor</directory>
+			</exclude>
+		</whitelist>
+	</filter>
+</phpunit>

@@ -1,0 +1,15 @@
+language: php
+php:
+    - '5.4'
+    - '5.5'
+    - '5.6'
+    - '7.0'
+    - hhvm
+    - nightly
+before_script:
+    - composer self-update
+    - composer install --no-interaction
+    - pip install --user codecov
+script: vendor/bin/phpunit -c test/phpunit.xml
+after_success:
+    - bash <(curl -s https://codecov.io/bash)

@@ -1,0 +1,5 @@
+/nbproject
+/nbproject/*
+/test/code_coverage/
+/vendor/*
+/composer.phar
