@@ -8,7 +8,7 @@ php:
     - nightly
 before_script:
     - composer self-update
-    - composer install --no-interaction
+    - composer update --no-interaction --prefer-lowest
     - composer dumpautoload -o
     - pip install --user codecov
 script: vendor/bin/phpunit -c test/phpunit.xml
