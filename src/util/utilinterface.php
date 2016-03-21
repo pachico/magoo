@@ -5,9 +5,9 @@
  * @copyright (c) 2016, Mariano F.co Benítez Mulet
  */
 
-namespace Pachico\Magoo\Utils;
+namespace Pachico\Magoo\Util;
 
-interface Utilsinterface
+interface Utilinterface
 {
 
 }

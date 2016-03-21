@@ -5,13 +5,13 @@
  * @copyright (c) 2016, Mariano F.co Benítez Mulet
  */
 
-namespace Pachico\Magoo\Utils;
+namespace Pachico\Magoo\Util;
 
 /**
  * Simple class related to Luhn algorithm
  * @see https://en.wikipedia.org/wiki/Luhn_algorithm
  */
-class Luhn implements Utilsinterface
+class Luhn implements Utilinterface
 {
 
 	/**

@@ -5,7 +5,7 @@
  * @copyright (c) 2016, Mariano F.co Benítez Mulet
  */
 
-namespace Pachico\Magoo\Utils;
+namespace Pachico\Magoo\Util;
 
 class LuhnTest extends \PHPUnit_Framework_TestCase
 {
@@ -86,7 +86,7 @@ class LuhnTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers Pachico\Magoo\Utils\Luhn::isLuhn
+	 * @covers Pachico\Magoo\Util\Luhn::isLuhn
 	 */
 	public function testIsLuhn()
 	{

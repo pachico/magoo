@@ -14,62 +14,69 @@ class Magoo
 {
 
 	/**
-	 *
-	 * @var Utilsinterface
+	 * Mask identifier
 	 */
-	protected $_util_luhn;
+	CONST MASK_CREDITCARD = 'creditcard';
+	CONST MASK_EMAIL = 'email';
+
+	/**
+	 * Contains masks that will apply to Magoo instance
+	 * @var array
+	 */
+	protected $_masks = [];
 
 	/**
 	 *
-	 * @param Utils\Utilsinterface $util_luhn
+	 * @param array $params
+	 * @return \Pachico\Magoo\Magoo
 	 */
-	public function __construct(Utils\Utilsinterface $util_luhn = null)
+	public function maskCreditCard(array $params = [])
 	{
-		$this->_util_luhn = $util_luhn ?
-			: new Utils\Luhn();
+		$this->_masks[static::MASK_CREDITCARD] = new Mask\Creditcard($params);
+		return $this;
 	}
 
 	/**
 	 *
-	 * @param string $string
-	 * @param string $replacement
+	 * @param array $params
+	 * @return \Pachico\Magoo\Magoo
+	 */
+	public function maskEmail(array $params = [])
+	{
+		$this->_masks[static::MASK_EMAIL] = new Mask\Email($params);
+		return $this;
+	}
+
+	/**
+	 *
+	 * @param \Pachico\Magoo\Mask\Maskinterface $customMask
+	 * @return \Pachico\Magoo\Magoo
+	 */
+	public function addCustomMask(Mask\Maskinterface $customMask)
+	{
+		$unique_id = uniqid('mask-');
+		$this->_masks[$unique_id] = $customMask;
+		return $this;
+	}
+
+	/**
+	 *
+	 * @param string $input
 	 * @return string
 	 */
-	public function creditCard($string, $replacement = '*')
+	public function mask($input)
 	{
-		$regex = '/(?:\d[ \t-]*?){13,19}/m';
-
-		$matches = [];
-
-		preg_match_all($regex, $string, $matches);
-
-		// No credit card found
-		if (!isset($matches[0]) || empty($matches[0]))
+		if (empty($this->_masks))
 		{
-			return $string;
+			return $input;
 		}
 
-		foreach ($matches as $match_group)
+		foreach ($this->_masks as $mask)
 		{
-			foreach ($match_group as $match)
-			{
-				$stripped_match = preg_replace('/[^\d]/', '', $match);
-
-				// Is it a valid Luhn one?
-				if (false === $this->_util_luhn->isLuhn($stripped_match))
-				{
-					continue;
-				}
-
-				$card_length = strlen($stripped_match);
-				$replacement = str_pad('', $card_length - 4, $replacement) . substr($stripped_match, -4);
-
-				// If so, replace the match
-				$string = str_replace($match, $replacement, $string);
-			}
+			$input = $mask->mask($input);
 		}
 
-		return $string;
+		return $input;
 	}
 
 }
