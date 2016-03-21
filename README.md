@@ -2,8 +2,8 @@
 
 [![Build Status](https://travis-ci.org/pachico/magoo.svg?branch=master)](https://travis-ci.org/pachico/magoo) [![codecov.io](https://codecov.io/github/pachico/magoo/coverage.svg?branch=master)](https://codecov.io/github/pachico/magoo?branch=master)
 
-Magoo will mask sensitive data out of strings. This might be useful, for loging user input.
-It comes with CreditCard and Email data masking, but you can inject custom classes as long as they implement a simple interface.
+Magoo will mask sensitive data out of strings. This might be useful, for instance, to log sensitive user input.
+It comes with credit card and email data masking, but you can inject custom classes as long as they implement a simple interface.
 
 (If you have suggestions about built-in masks, **please let me know**!)
 
@@ -14,7 +14,7 @@ Using composer:
 
 #Simple usage
 
-	namespace Pachico\Magoo;
+	use Pachico\Magoo;
 	$magoo = new Magoo;
 
 	$magoo->maskCreditCard()
