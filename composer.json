@@ -1,13 +1,19 @@
 {
-    "name": "pachico/magoo",
-    "description": "Collection of functionalities to mask sensitive data",
+	"name": "pachico/magoo",
+	"description": "Collection of functionalities to mask sensitive data (credit cards, emails, etc)",
 	"license": "MIT",
 	"keywords": [
 		"Mask",
+		"Masking",
 		"Sensitive data",
-		"Credit card"
+		"Credit card",
+		"Creditcard",
+		"Email",
+		"Security",
+		"Obfuscation",
+		"Custom masking"
 	],
-    "authors": [
+	"authors": [
 		{
 			"name": "Mariano F.co Benítez Mulet",
 			"email": "nanodevel@gmail.com",
@@ -20,9 +26,9 @@
 		}
 	},
 	"minimum-stability": "stable",
-    "require": {},
-    "require-dev": {
-        "phpunit/phpunit": "4.8.x-dev",
-        "phpunit/phpunit-skeleton-generator": "2.0.1"
-    }
+	"require": {},
+	"require-dev": {
+		"phpunit/phpunit": "4.8.x-dev",
+		"phpunit/phpunit-skeleton-generator": "2.0.1"
+	}
 }
