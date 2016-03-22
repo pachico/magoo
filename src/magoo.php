@@ -37,6 +37,18 @@ class Magoo
 	}
 
 	/**
+	 * 
+	 * @param array $params
+	 * @return \Pachico\Magoo\Magoo
+	 */
+	public function maskByRegex(array $params = [])
+	{
+		$unique_id = uniqid('mask-');
+		$this->_masks[$unique_id] = new Mask\Regex($params);
+		return $this;
+	}
+
+	/**
 	 *
 	 * @param array $params
 	 * @return \Pachico\Magoo\Magoo

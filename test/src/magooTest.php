@@ -39,11 +39,12 @@ class MagooTest extends \PHPUnit_Framework_TestCase
 		$this->object
 			->maskCreditCard()
 			->addCustomMask($custom_mask)
-			->maskEmail();
+			->maskEmail()
+			->maskByRegex(['regex' => '/(email)+/m']);
+		;
 
 		$this->assertSame(
-			$this->object->mask('My foo email is roy@trenneman.com and my credit card is 6011792594656742'),
-			'My bar email is ***@trenneman.com and my credit card is ************6742'
+			$this->object->mask('My foo email is roy@trenneman.com and my credit card is 6011792594656742'), 'My bar ***** is ***@trenneman.com and my credit card is ************6742'
 		);
 	}
 
@@ -57,8 +58,7 @@ class MagooTest extends \PHPUnit_Framework_TestCase
 			->maskEmail();
 
 		$this->assertSame(
-			$this->object->mask('My email is roy@trenneman.com and my credit card is 6011792594656742'),
-			'My email is ***@trenneman.com and my credit card is 6011792594656742'
+			$this->object->mask('My email is roy@trenneman.com and my credit card is 6011792594656742'), 'My email is ***@trenneman.com and my credit card is 6011792594656742'
 		);
 	}
 
@@ -72,8 +72,24 @@ class MagooTest extends \PHPUnit_Framework_TestCase
 			->maskCreditCard();
 
 		$this->assertSame(
-			$this->object->mask('My email is roy@trenneman.com and my credit card is 6011792594656742'),
-			'My email is roy@trenneman.com and my credit card is ************6742'
+			$this->object->mask('My email is roy@trenneman.com and my credit card is 6011792594656742'), 'My email is roy@trenneman.com and my credit card is ************6742'
+		);
+	}
+
+	/**
+	 * @covers Pachico\Magoo\Magoo::mask
+	 * @covers Pachico\Magoo\Magoo::MaskByRegex
+	 */
+	public function testRegexMask()
+	{
+		$this->object
+			->maskByRegex([
+				'regex' => '/[a-zA-Z]+/m',
+				'replacement' => '*'
+		]);
+
+		$this->assertSame(
+			$this->object->mask('This is 1 string'), '**** ** 1 ******'
 		);
 	}
 
@@ -83,8 +99,7 @@ class MagooTest extends \PHPUnit_Framework_TestCase
 	public function testNoMask()
 	{
 		$this->assertSame(
-			$this->object->mask('My email is roy@trenneman.com and my credit card is 6011792594656742'),
-			'My email is roy@trenneman.com and my credit card is 6011792594656742'
+			$this->object->mask('My email is roy@trenneman.com and my credit card is 6011792594656742'), 'My email is roy@trenneman.com and my credit card is 6011792594656742'
 		);
 	}
 

@@ -18,12 +18,13 @@ Using composer:
 	$magoo = new Magoo;
 
 	$magoo->maskCreditCard()
-		->maskEmail();
+		->maskEmail()
+		->maskByRegex(['regex' => '/(email)+/m']);
 
 	$my_sensitive_string = 'My email is roy@trenneman.com and my credit card is 6011792594656742';
 	
 	echo $magoo->mask($my_sensitive_string);
-	// 'My email is ***@trenneman.com and my credit card is ************6742'
+	// 'My **** is ***@trenneman.com and my credit card is ************6742'
 
 ### Credit card masking
 
@@ -31,6 +32,13 @@ Credit card masking accepts custom replacement
 
 	$magoo = new Magoo;
 	$magoo->maskCreditCard(['replacement' => '$']);
+	...
+
+### Regex masking
+Regex masking will replace matches with replacements strings that are long as each individual match.
+
+	$magoo = new Magoo;
+	$magoo->maskByRegex(['replacement' => '*', 'regex' => '(\d+)']);
 	...
 
 ### Email masking 
