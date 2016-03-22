@@ -8,7 +8,7 @@
 namespace Pachico\Magoo\Mask;
 
 /**
- * Email regex detection is controversial.
+ * Email regex detection is still controversial.
  * Please report, any improvements
  */
 class Email implements Maskinterface

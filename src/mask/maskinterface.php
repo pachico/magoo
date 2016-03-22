@@ -8,7 +8,8 @@
 namespace Pachico\Magoo\Mask;
 
 /**
- *
+ * Masks must implement this interface since
+ * mask() method will be executed for all of them
  */
 interface Maskinterface
 {
