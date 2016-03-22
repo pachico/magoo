@@ -8,7 +8,7 @@
 namespace Pachico\Magoo;
 
 /**
- *
+ * Magoo will mask sensitive data from strings
  */
 class Magoo
 {
@@ -21,7 +21,7 @@ class Magoo
 
 	/**
 	 * Contains masks that will apply to Magoo instance
-	 * @var array
+	 * @var array Contains masks to apply
 	 */
 	protected $_masks = [];
 
@@ -30,7 +30,7 @@ class Magoo
 	 * @param array $params
 	 * @return \Pachico\Magoo\Magoo
 	 */
-	public function maskCreditCard(array $params = [])
+	public function maskCreditCards(array $params = [])
 	{
 		$this->_masks[static::MASK_CREDITCARD] = new Mask\Creditcard($params);
 		return $this;
@@ -41,7 +41,7 @@ class Magoo
 	 * @param array $params
 	 * @return \Pachico\Magoo\Magoo
 	 */
-	public function maskEmail(array $params = [])
+	public function maskEmails(array $params = [])
 	{
 		$this->_masks[static::MASK_EMAIL] = new Mask\Email($params);
 		return $this;
@@ -61,10 +61,10 @@ class Magoo
 
 	/**
 	 *
-	 * @param string $input
-	 * @return string
+	 * @param string $input Input string to be masked
+	 * @return string Masked string
 	 */
-	public function mask($input)
+	public function executeMasks($input)
 	{
 		if (empty($this->_masks))
 		{

@@ -45,7 +45,7 @@ class Creditcard implements Maskinterface
 	}
 
 	/**
-	 *
+	 * This will only mask a CC number if it's a valid Luhn, since, otherwise, it's not a correct CC number.
 	 * @param string $string
 	 * @return string
 	 */

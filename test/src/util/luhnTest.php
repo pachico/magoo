@@ -14,7 +14,7 @@ class LuhnTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @var array
 	 */
-	protected $_valid_luhn_numbers = [
+	protected $_valid_luhns = [
 		4143835214588534,
 		4929210174798392,
 		4024007116235903,
@@ -56,7 +56,7 @@ class LuhnTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @var array
 	 */
-	protected $_invalid_luhn_strings = [
+	protected $_invalid_luhns = [
 		45173835214588534,
 		49225210474798392,
 		4023047116235903,
@@ -90,12 +90,12 @@ class LuhnTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testIsLuhn()
 	{
-		foreach ($this->_valid_luhn_numbers as $number)
+		foreach ($this->_valid_luhns as $number)
 		{
 			$this->assertTrue($this->object->isLuhn($number));
 		}
 
-		foreach ($this->_invalid_luhn_strings as $number)
+		foreach ($this->_invalid_luhns as $number)
 		{
 			$this->assertFalse($this->object->isLuhn($number));
 		}

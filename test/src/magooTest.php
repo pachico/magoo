@@ -27,70 +27,70 @@ class MagooTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers Pachico\Magoo\Magoo::mask
-	 * @covers Pachico\Magoo\Magoo::maskCreditCard
+	 * @covers Pachico\Magoo\Magoo::Executemasks
+	 * @covers Pachico\Magoo\Magoo::maskCreditCards
 	 * @covers Pachico\Magoo\Magoo::addCustomMask
-	 * @covers Pachico\Magoo\Magoo::maskEmail
+	 * @covers Pachico\Magoo\Magoo::maskEmails
 	 */
 	public function testChainableMasks()
 	{
 		$custom_mask = new Mask\Custommask(['replacement' => 'bar']);
 
 		$this->object
-			->maskCreditCard()
+			->maskCreditCards()
 			->addCustomMask($custom_mask)
-			->maskEmail();
+			->maskEmails();
 
 		$this->assertSame(
-			$this->object->mask('My foo email is roy@trenneman.com and my credit card is 6011792594656742'),
+			$this->object->executeMasks('My foo email is roy@trenneman.com and my credit card is 6011792594656742'),
 			'My bar email is ***@trenneman.com and my credit card is ************6742'
 		);
 	}
 
 	/**
-	 * @covers Pachico\Magoo\Magoo::mask
-	 * @covers Pachico\Magoo\Magoo::maskEmail
+	 * @covers Pachico\Magoo\Magoo::Executemasks
+	 * @covers Pachico\Magoo\Magoo::maskEmails
 	 */
 	public function testEmailMask()
 	{
 		$this->object
-			->maskEmail();
+			->maskEmails();
 
 		$this->assertSame(
-			$this->object->mask('My email is roy@trenneman.com and my credit card is 6011792594656742'),
+			$this->object->executeMasks('My email is roy@trenneman.com and my credit card is 6011792594656742'),
 			'My email is ***@trenneman.com and my credit card is 6011792594656742'
 		);
 	}
 
 	/**
-	 * @covers Pachico\Magoo\Magoo::mask
-	 * @covers Pachico\Magoo\Magoo::maskCreditCard
+	 * @covers Pachico\Magoo\Magoo::Executemasks
+	 * @covers Pachico\Magoo\Magoo::maskCreditCards
 	 */
 	public function testCreditcardMask()
 	{
 		$this->object
-			->maskCreditCard();
+			->maskCreditCards();
 
 		$this->assertSame(
-			$this->object->mask('My email is roy@trenneman.com and my credit card is 6011792594656742'),
+			$this->object->executeMasks('My email is roy@trenneman.com and my credit card is 6011792594656742'),
 			'My email is roy@trenneman.com and my credit card is ************6742'
 		);
 	}
 
 	/**
-	 * @covers Pachico\Magoo\Magoo::mask
+	 * @covers Pachico\Magoo\Magoo::Executemasks
 	 */
 	public function testNoMask()
 	{
 		$this->assertSame(
-			$this->object->mask('My email is roy@trenneman.com and my credit card is 6011792594656742'),
+			$this->object->executeMasks('My email is roy@trenneman.com and my credit card is 6011792594656742'),
 			'My email is roy@trenneman.com and my credit card is 6011792594656742'
 		);
 	}
 
 	/**
 	 * @covers Pachico\Magoo\Magoo::addCustomMask
-	 * @covers Pachico\Magoo\Magoo::mask
+	 * @covers Pachico\Magoo\Magoo::Executemasks
 	 */
 	public function testCustomMask()
 	{
@@ -98,7 +98,7 @@ class MagooTest extends \PHPUnit_Framework_TestCase
 
 		$this->object->addCustomMask($custom_mask);
 		$this->assertSame(
-			$this->object->mask('Some foo foo foo'), 'Some bar bar bar'
+			$this->object->executeMasks('Some foo foo foo'), 'Some bar bar bar'
 		);
 	}
 

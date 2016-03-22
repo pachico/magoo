@@ -17,7 +17,7 @@ class EmailTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @var array
 	 */
-	protected $_strings_with_valid_email_addresses = [
+	protected $_valid_emails = [
 		'To donate write to ted@crilly.com, please' => 'To donate write to ***@**********, please',
 		'In case of dragons, report to dougal@mcguire.net' => 'In case of dragons, report to ******@***********',
 		'Booz expert: jack@hackett.org' => 'Booz expert: ****@***********',
@@ -29,7 +29,7 @@ class EmailTest extends \PHPUnit_Framework_TestCase
 	 *
 	 * @var array
 	 */
-	protected $_strings_without_valid_email = [
+	protected $_no_valid_emails = [
 		'This is just a random string',
 		'It almost looks like an email: asdas@',
 		'This is almost interesting: foo.bar.com'
@@ -56,12 +56,12 @@ class EmailTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testMask()
 	{
-		foreach ($this->_strings_with_valid_email_addresses as $input => $output)
+		foreach ($this->_valid_emails as $input => $output)
 		{
 			$this->assertSame($this->object->mask($input), $output);
 		}
 
-		foreach ($this->_strings_without_valid_email as $input)
+		foreach ($this->_no_valid_emails as $input)
 		{
 			$this->assertSame($this->object->mask($input), $input);
 		}
