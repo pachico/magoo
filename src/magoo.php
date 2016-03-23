@@ -27,35 +27,48 @@ class Magoo
 
 	/**
 	 *
-	 * @param array $params
+	 * @param string $replacement Character to replace matches
 	 * @return \Pachico\Magoo\Magoo
 	 */
-	public function maskCreditCards(array $params = [])
+	public function maskCreditCards($replacement = '*')
 	{
-		$this->_masks[static::MASK_CREDITCARD] = new Mask\Creditcard($params);
-		return $this;
-	}
-
-	/**
-	 * 
-	 * @param array $params
-	 * @return \Pachico\Magoo\Magoo
-	 */
-	public function maskByRegex(array $params = [])
-	{
-		$unique_id = uniqid('mask-');
-		$this->_masks[$unique_id] = new Mask\Regex($params);
+		$this->_masks[static::MASK_CREDITCARD] = new Mask\Creditcard(['replacement' => (string) $replacement]);
 		return $this;
 	}
 
 	/**
 	 *
-	 * @param array $params
+	 * @param string $regex Regex to be executed
+	 * @param string $replacement Character to replace matches
 	 * @return \Pachico\Magoo\Magoo
 	 */
-	public function maskEmails(array $params = [])
+	public function maskByRegex($regex, $replacement = '*')
 	{
-		$this->_masks[static::MASK_EMAIL] = new Mask\Email($params);
+		$unique_id = uniqid('mask-');
+		$this->_masks[$unique_id] = new Mask\Regex(['regex' => empty($regex)
+				? '/^$/'
+				: (string) $regex, 'replacement' => (string) $replacement]);
+		return $this;
+	}
+
+	/**
+	 *
+	 * @param string $local_replacement Character to replace local part of email
+	 * @param string $domain_replacement Character to replace domain part of email
+	 * @return \Pachico\Magoo\Magoo
+	 */
+	public function maskEmails($local_replacement = '*', $domain_replacement = null)
+	{
+		$this->_masks[static::MASK_EMAIL] = new Mask\Email([
+			'local_replacement' => is_null($local_replacement)
+				? null
+				: (string) $local_replacement,
+			'domain_replacement' => is_null($domain_replacement)
+				? null
+				: (string) $domain_replacement
+			]
+		);
+
 		return $this;
 	}
 
@@ -76,7 +89,7 @@ class Magoo
 	 * @param string $input Input string to be masked
 	 * @return string Masked string
 	 */
-	public function executeMasks($input)
+	public function getMasked($input)
 	{
 		if (empty($this->_masks))
 		{

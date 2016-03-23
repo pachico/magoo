@@ -1,18 +1,19 @@
-#Magoo
+# Pachico\Magoo
 
 [![Build Status](https://travis-ci.org/pachico/magoo.svg?branch=master)](https://travis-ci.org/pachico/magoo) [![codecov.io](https://codecov.io/github/pachico/magoo/coverage.svg?branch=master)](https://codecov.io/github/pachico/magoo?branch=master) [![Codacy Badge](https://api.codacy.com/project/badge/grade/226d0d2e91354a8eac06569a115c056c)](https://www.codacy.com/app/pachico/magoo) [![Codacy Badge](https://api.codacy.com/project/badge/coverage/226d0d2e91354a8eac06569a115c056c)](https://www.codacy.com/app/pachico/magoo)
 
-Magoo will mask sensitive data out of strings. This might be useful, for instance, to log sensitive user input.
-It comes with credit card and email data masking, but you can inject custom classes as long as they implement a simple interface.
+Magoo will mask sensitive data in strings. Built-in masks use regex to find credit card numbers and emails and will mask only those, leaving the rest of the string intact.  This might be useful, for instance, to log sensitive user input.
+You can also mask strings that match your own regex or inject masking class as long as they implement a simple interface.
 
-(If you have suggestions about built-in masks, **please let me know**!)
 
-#Installation
+(If you have suggestions about more masks to implement, **please let me know**!)
+
+# Installation
 Using composer:
 
 	composer require pachico/magoo dev-master
 
-#Simple usage
+# Usage
 
 	use Pachico\Magoo;
 	
@@ -21,37 +22,38 @@ Using composer:
 	$magoo
 		->maskCreditCard()
 		->maskEmail()
-		->maskByRegex(['regex' => '/(email)+/m']);
+		->maskByRegex('/(email)+/m');
 
 	$my_sensitive_string = 'My email is roy@trenneman.com and my credit card is 6011792594656742';
 	
-	echo $magoo->executeMasks($my_sensitive_string);
+	echo $magoo->getMasked($my_sensitive_string);
 	// 'My **** is ***@trenneman.com and my credit card is ************6742'
 
 ### Credit card masking
 
-Credit card masking accepts custom replacement
+Credit card mask accepts custom replacement
 
 	$magoo = new Magoo;
-	$magoo->maskCreditCards(['replacement' => '$']);
+	$magoo->maskCreditCards('$');
 	...
 
 ### Regex masking
-Regex masking will replace matches with replacements strings that are long as each individual match.
+Regex mask will replace matches with strings that are long as each individual match.
+It requires a regex and accepts custom replacement.
 
 	$magoo = new Magoo;
-	$magoo->maskByRegex(['replacement' => '*', 'regex' => '(\d+)']);
+	$magoo->maskByRegex('(\d+)', '*');
 	...
 
 ### Email masking 
-Email masking accepts replacements for *local* and *domain* part individually.
-If you don't provide one, it will mask local part automatically.
+Email mask accepts replacements for *local* and *domain* part individually.
+If you don't provide one, it will mask local part.
 
 	$magoo = new Magoo;
-	$magoo->maskEmails(['local_replacement' => '*', 'domain_replacement' => '&']);
+	$magoo->maskEmails('*', '&');
 	...
 
-###Custom masks
+### Custom masks
 Additionally, you can add your own mask as long as it implements *Maskinterface*.
 
 	$custom_mask = new Mask\FooBarMask(['replacement' => 'bar']);
@@ -59,18 +61,12 @@ Additionally, you can add your own mask as long as it implements *Maskinterface*
 	$magoo->addCustomMask($custom_mask);
 	...
 
-#Help
+# Help
 Please report any bug you might find and/or collaborate with your own masks.
 
 Cheers!
 
 <p align="center">
-  <img src="http://i.imgur.com/Cxi86gJ.png" alt="Magoo"/>
+  <img src="https://camo.githubusercontent.com/2bc8f355f403cd00bafaee23fbf279ed69567f65/687474703a2f2f692e696d6775722e636f6d2f4378693836674a2e706e67" alt="Magoo"/>
 </p>
 
-***
-
-<p align="center">
-  <iframe src="https://www.linkedin.com/in/marianobenitezmulet" style="border:0px #FFFFFF none;" name="thanksforvisiting" scrolling="no" frameborder="0" marginheight="0px" marginwidth="0px" height="1px" width="1px"></iframe>
-</p>
-	

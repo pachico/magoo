@@ -7,8 +7,6 @@
 
 namespace Pachico\Magoo\Mask;
 
-use Pachico\Magoo\Util;
-
 /**
  * Regular expression substitution
  */
