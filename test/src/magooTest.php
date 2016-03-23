@@ -32,7 +32,7 @@ class MagooTest extends \PHPUnit_Framework_TestCase
 	 * @covers Pachico\Magoo\Magoo::addCustomMask
 	 * @covers Pachico\Magoo\Magoo::maskEmails
 	 */
-	public function testChainableMasks()
+	public function testChainedMasks()
 	{
 		$custom_mask = new Mask\Custommask(['replacement' => 'bar']);
 
@@ -43,10 +43,47 @@ class MagooTest extends \PHPUnit_Framework_TestCase
 			->maskByRegex('/(email)+/m', '*')
 		;
 
-
 		$this->assertSame(
 			$this->object->getMasked('My foo email is roy@trenneman.com and my credit card is 6011792594656742'),
 			'My bar ***** is ***@_____________ and my credit card is ************6742'
+		);
+	}
+
+	/**
+	 * @covers Pachico\Magoo\Magoo::maskCreditCards
+	 * @covers Pachico\Magoo\Magoo::maskEmails
+	 * @covers Pachico\Magoo\Magoo::addCustomMask
+	 * @covers Pachico\Magoo\Magoo::maskByRegex
+	 * @covers Pachico\Magoo\Magoo::reset
+	 */
+	public function testChainableMasks()
+	{
+		$this->assertInstanceOf('Pachico\Magoo\Magoo', $this->object->maskCreditCards());
+		$this->assertInstanceOf('Pachico\Magoo\Magoo', $this->object->maskEmails());
+		$custom_mask = new Mask\Custommask([]);
+		$this->assertInstanceOf('Pachico\Magoo\Magoo', $this->object->addCustomMask($custom_mask));
+		$this->assertInstanceOf('Pachico\Magoo\Magoo', $this->object->maskByRegex('/foo/'));
+		$this->assertInstanceOf('Pachico\Magoo\Magoo', $this->object->reset());
+	}
+
+	/**
+	 * @covers Pachico\Magoo\Magoo::getMasked
+	 * @covers Pachico\Magoo\Magoo::maskCreditCards
+	 * @covers Pachico\Magoo\Magoo::maskEmails
+	 * @covers Pachico\Magoo\Magoo::reset
+	 */
+	public function testReset()
+	{
+
+		$this->object
+			->maskCreditCards('*')
+			->maskEmails('*', '_')
+			->reset();
+
+		$string = 'My foo email is roy@trenneman.com and my credit card is 6011792594656742';
+
+		$this->assertSame(
+			$this->object->getMasked($string), $string
 		);
 	}
 
@@ -83,17 +120,18 @@ class MagooTest extends \PHPUnit_Framework_TestCase
 	/**
 	 * @covers Pachico\Magoo\Magoo::getMasked
 	 * @covers Pachico\Magoo\Magoo::maskByRegex
+	 * @covers Pachico\Magoo\Magoo::reset
 	 */
 	public function testRegexMask()
 	{
-		$this->object = (new Magoo)
+		$this->object->reset()
 			->maskByRegex('/[a-zA-Z]+/m', '*');
 
 		$this->assertSame(
 			$this->object->getMasked('This is 1 string'), '**** ** 1 ******'
 		);
 
-		$this->object = (new Magoo)
+		$this->object->reset()
 			->maskByRegex('', '*');
 
 		$string = 'This 1 string that will not be masked since there is no valid regex';
@@ -108,9 +146,10 @@ class MagooTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testNoMask()
 	{
+		$string = 'My email is roy@trenneman.com and my credit card is 6011792594656742';
+
 		$this->assertSame(
-			$this->object->getMasked('My email is roy@trenneman.com and my credit card is 6011792594656742'),
-			'My email is roy@trenneman.com and my credit card is 6011792594656742'
+			$this->object->getMasked($string), $string
 		);
 	}
 

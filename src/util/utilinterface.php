@@ -7,6 +7,9 @@
 
 namespace Pachico\Magoo\Util;
 
+/**
+ * Utils must implement this interface
+ */
 interface Utilinterface
 {
 

@@ -11,8 +11,8 @@ use Pachico\Magoo\Util;
 
 /**
  * The concept behind this is:
- * If we can find a valid Luhn long enough to be a CCard, mask it
- * If it is not a valid Luhn, no need to mask it
+ * If we can find a valid Luhn long enough to be a CCard, match it via regex
+ * If match isn't a valid Luhn, no need to mask it
  */
 class Creditcard implements Maskinterface
 {
@@ -45,7 +45,8 @@ class Creditcard implements Maskinterface
 	}
 
 	/**
-	 * This will only mask a CC number if it's a valid Luhn, since, otherwise, it's not a correct CC number.
+	 * This will only mask a CC number if it's a valid Luhn, since,
+	 * otherwise, it's not a correct CC number.
 	 * @param string $string
 	 * @return string
 	 */

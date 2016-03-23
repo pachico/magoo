@@ -85,6 +85,16 @@ class Magoo
 	}
 
 	/**
+	 * Reset Magoo by deleting all previously added masks
+	 * @return \Pachico\Magoo\Magoo
+	 */
+	public function reset()
+	{
+		$this->_masks = [];
+		return $this;
+	}
+
+	/**
 	 *
 	 * @param string $input Input string to be masked
 	 * @return string Masked string

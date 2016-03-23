@@ -20,8 +20,8 @@ Using composer:
 	$magoo = new Magoo;
 
 	$magoo
-		->maskCreditCard()
-		->maskEmail()
+		->maskCreditCards()
+		->maskEmails()
 		->maskByRegex('/(email)+/m');
 
 	$my_sensitive_string = 'My email is roy@trenneman.com and my credit card is 6011792594656742';
@@ -52,6 +52,17 @@ If you don't provide one, it will mask local part.
 	$magoo = new Magoo;
 	$magoo->maskEmails('*', '&');
 	...
+
+### Reset
+You might want to use the same instance of Magoo in your application but not the same masks everytime.
+You can reset all masks at any time by using the *reset()* method.
+
+	$magoo = new Magoo;
+	$magoo->maskEmails('*', '&')
+	...
+	$magoo->reset();
+	...
+	// This will not mask any string unless you add masks
 
 ### Custom masks
 Additionally, you can add your own mask as long as it implements *Maskinterface*.

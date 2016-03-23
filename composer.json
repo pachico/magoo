@@ -1,6 +1,6 @@
 {
 	"name": "pachico/magoo",
-	"description": "Collection of functionalities to mask sensitive data (credit cards, emails, etc)",
+	"description": "Mask credit card numbers, emails and more.",
 	"license": "MIT",
 	"keywords": [
 		"Mask",
