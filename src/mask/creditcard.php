@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Mariano F.co Benítez Mulet <nanodevel@gmail.com>
+ * @author Mariano F.co Benítez Mulet <pachicodev@gmail.com>
  * @copyright (c) 2016, Mariano F.co Benítez Mulet
  */
 

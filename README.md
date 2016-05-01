@@ -8,64 +8,43 @@ You can also mask strings that match your own regex or inject masking class as l
 
 (If you have suggestions about more masks to implement, **please let me know**!)
 
-# Installation
-Using composer:
+## Install
+Via Composer:
 
-	composer require pachico/magoo dev-master
+	composer require pachico/magoo
 
-# Usage
+## Usage
 
-	use Pachico\Magoo;
-	
-	$magoo = new Magoo;
+```php
+use Pachico\Magoo;
 
-	$magoo
-		->maskCreditCards()
-		->maskEmails()
-		->maskByRegex('/(email)+/m');
+$magoo = new Magoo;
 
-	$my_sensitive_string = 'My email is roy@trenneman.com and my credit card is 6011792594656742';
-	
-	echo $magoo->getMasked($my_sensitive_string);
-	// 'My **** is ***@trenneman.com and my credit card is ************6742'
+## Change log
 
-### Credit card masking
+Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
 
-Credit card mask accepts custom replacement
+## Testing
 
-	$magoo = new Magoo;
-	$magoo->maskCreditCards('$');
-	...
+``` bash
+$ composer test
+```
 
-### Regex masking
-Regex mask will replace matches with strings that are long as each individual match.
-It requires a regex and accepts custom replacement.
+## Contributing
 
-	$magoo = new Magoo;
-	$magoo->maskByRegex('(\d+)', '*');
-	...
+Please see [CONTRIBUTING](CONTRIBUTING.md) and [CONDUCT](CONDUCT.md) for details.
 
-### Email masking 
-Email mask accepts replacements for *local* and *domain* part individually.
-If you don't provide one, it will mask local part.
+## Security
 
-	$magoo = new Magoo;
-	$magoo->maskEmails('*', '&');
-	...
+If you discover any security related issues, please email :author_email instead of using the issue tracker.
 
-### Reset
-You might want to use the same instance of Magoo in your application but not the same masks everytime.
-You can reset all masks at any time by using the *reset()* method.
+## Credits
 
-	$magoo = new Magoo;
-	$magoo->maskEmails('*', '&')
-	...
-	$magoo->reset();
-	...
-	// This will not mask any string unless you add masks
+- [:author_name][link-author]
 
-### Custom masks
-Additionally, you can add your own mask as long as it implements *Maskinterface*.
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
 	$custom_mask = new Mask\FooBarMask(['replacement' => 'bar']);
 	$magoo = new Magoo;
