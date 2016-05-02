@@ -14,13 +14,10 @@ use Pachico\Magoo\Magoo;
 
 $magoo = new Magoo();
 
-$magoo
-    ->maskCreditCards()
-    ->maskEmails()
-    ->maskByRegex('/(email)+/m');
+$magoo->maskByRegex('(\d+)', '_');
 
-$mySensitiveString = 'My email is roy@trenneman.com and my credit card is 6011792594656742';
+$mySensitiveString = 'My telephone number is 639.639.639. Call me at 19:00!';
 
-echo $magoo->getMasked($mySensitiveString) . PHP_EOL;
+echo $magoo->getMasked($mySensitiveString);
 
-// 'My ***** is ***@trenneman.com and my credit card is ************6742'
+// My telephone number is ___.___.___. Call me at __:__!
