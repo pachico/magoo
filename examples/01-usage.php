@@ -13,9 +13,7 @@ require __DIR__ . '/../vendor/autoload.php';
 use Pachico\Magoo\Magoo;
 
 $magoo = new Magoo();
-
-$magoo
-    ->maskCreditCards()
+$magoo->maskCreditCards()
     ->maskEmails()
     ->maskByRegex('/(email)+/m');
 

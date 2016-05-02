@@ -13,7 +13,6 @@ require __DIR__ . '/../vendor/autoload.php';
 use Pachico\Magoo\Magoo;
 
 $magoo = new Magoo();
-
 $magoo->maskCreditCards('·');
 
 $mySensitiveString = 'This is my credit card number: 4111 1111 1111 1111.';

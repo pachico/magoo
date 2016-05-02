@@ -13,7 +13,6 @@ require __DIR__ . '/../vendor/autoload.php';
 use Pachico\Magoo\Magoo;
 
 $magoo = new Magoo();
-
 $magoo->maskByRegex('(\d+)', '_');
 
 $mySensitiveString = 'My telephone number is 639.639.639. Call me at 19:00!';

@@ -13,7 +13,6 @@ require __DIR__ . '/../vendor/autoload.php';
 use Pachico\Magoo\Magoo;
 
 $magoo = new Magoo();
-
 $magoo->maskCreditCards()->maskByRegex('(\d+)', '_');
 
 $mySensitiveString = 'My CC is 4111 1111 1111 1111 and my telephone number is 639.639.639.';
