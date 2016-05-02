@@ -9,16 +9,30 @@ You can also mask strings that match your own regex or inject masking class as l
 (If you have suggestions about more masks to implement, **please let me know**!)
 
 ## Install
-Via Composer:
 
-	composer require pachico/magoo
+Via Composer:
+```
+composer require pachico/magoo
+```
 
 ## Usage
 
 ```php
-use Pachico\Magoo;
+use Pachico\Magoo\Magoo;
 
-$magoo = new Magoo;
+$magoo = new Magoo();
+
+$magoo
+    ->maskCreditCards()
+    ->maskEmails()
+    ->maskByRegex('/(email)+/m');
+
+$mySensitiveString = 'My email is roy@trenneman.com and my credit card is 6011792594656742';
+
+echo $magoo->getMasked($mySensitiveString) . PHP_EOL;
+
+// 'My ***** is ***@trenneman.com and my credit card is ************6742'
+```
 
 ## Change log
 
@@ -36,27 +50,17 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) and [CONDUCT](CONDUCT.md) for details
 
 ## Security
 
-If you discover any security related issues, please email :author_email instead of using the issue tracker.
+If you discover any security related issues, please email pachicodev@gmail.com instead of using the issue tracker.
 
 ## Credits
 
-- [:author_name][link-author]
+- [Mariano F.co Benítez Mulet](https://github.com/pachico/magoo)
 
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-	$custom_mask = new Mask\FooBarMask(['replacement' => 'bar']);
-	$magoo = new Magoo;
-	$magoo->addCustomMask($custom_mask);
-	...
-
 # Help
+
 Please report any bug you might find and/or collaborate with your own masks.
-
-Cheers!
-
-<p align="center">
-  <img src="https://camo.githubusercontent.com/2bc8f355f403cd00bafaee23fbf279ed69567f65/687474703a2f2f692e696d6775722e636f6d2f4378693836674a2e706e67" alt="Magoo"/>
-</p>
 

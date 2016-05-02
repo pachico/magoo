@@ -1,22 +1,6 @@
 # Changelog
 
-All Notable changes to `:package_name` will be documented in this file.
-
-Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
-
-## NEXT - YYYY-MM-DD
+## 2.0.0
 
 ### Added
-- Nothing
-
-### Deprecated
-- Nothing
-
-### Fixed
-- Nothing
-
-### Removed
-- Nothing
-
-### Security
-- Nothing
+- Package is now PSR2 compliant and it breaks BC.

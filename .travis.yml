@@ -11,7 +11,10 @@ before_script:
     - composer update --no-interaction --prefer-lowest
     - composer dumpautoload -o
     - pip install --user codecov
-script: vendor/bin/phpunit -c test/phpunit.xml
+script:
+    - composer validate --strict
+    - vendor/bin/phpcs --standard=psr2 src/
+    - vendor/bin/phpunit
 after_success:
     - bash <(curl -s https://codecov.io/bash)
     - php vendor/bin/codacycoverage clover test/code_coverage/clover.xml
