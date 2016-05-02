@@ -6,16 +6,21 @@
 Magoo will mask sensitive data in strings. Built-in masks use regex to find credit card numbers and emails and will mask only those, leaving the rest of the string intact. This might be useful, for instance, to log sensitive user input.
 You can also mask strings that match your own regex or inject masking class as long as they implement a simple interface.
 
-Use the [issues](issues) tool to request masks to implement.
+Use the [issues](https://github.com/pachico/magoo/issues) page to request masks to implement.
 
 ## Install
+
 Via Composer:
 ```
 composer require pachico/magoo
 ```
+
 ## Usage
+
 ### Generic
+
 This is a generic usage of the library.
+
 ```php
 use Pachico\Magoo\Magoo;
 
@@ -30,6 +35,7 @@ echo $magoo->getMasked($mySensitiveString);
 
 // 'My ***** is ***@trenneman.com and my credit card is ************6742'
 ```
+
 ### Mask credit cards
 
 Credit card mask accepts a custom replacement.
@@ -46,6 +52,7 @@ echo $magoo->getMasked($mySensitiveString);
 
 // This is my credit card number: ······1111.
 ```
+
 ### Mask emails
 
 Email mask accepts as optional parameters the replacement for local and domain parts.
@@ -64,6 +71,7 @@ echo $magoo->getMasked($mySensitiveString);
 ```
 
 ### Mask by regex
+
 Regex mask will replace matches with strings that are long as each individual match. It requires a regex and accepts custom replacement.
 
 ```php
@@ -78,7 +86,9 @@ echo $magoo->getMasked($mySensitiveString);
 
 // My telephone number is ___.___.___. Call me at __:__!
 ```
+
 ### Reset
+
 You might want to use the same instance of Magoo in your application but not the same masks everytime. You can reset all masks at any time by using the reset() method.
 ```php
 use Pachico\Magoo\Magoo;
@@ -98,7 +108,9 @@ echo $magoo->getMasked($mySensitiveString);
 
 // My CC is 4111 1111 1111 1111 and my telephone number is 639.639.639.
 ```
+
 ### Custom masks
+
 Additionally, you can add your own mask as long as it implements Maskinterface.
 ```php
 use Pachico\Magoo\Magoo;
@@ -130,20 +142,29 @@ echo $magoo->getMasked($mySensitiveString   );
 
 // It is time to go to the bar.
 ```
+
 ## Change log
+
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
 
 ## Testing
+
 ``` bash
 $ composer test
 ```
 
 ## Contributing
+
 Please see [CONTRIBUTING](CONTRIBUTING.md) and [CONDUCT](CONDUCT.md) for details.
+
 ## Security
+
 If you discover any security related issues, please email pachicodev@gmail.com instead of using the issue tracker.
+
 ## Credits
+
 - [Mariano F.co Benítez Mulet](https://github.com/pachico/magoo)
+
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
