@@ -35,6 +35,6 @@ $magoo->pushMask($customMask);
 
 $mySensitiveString = 'It is time to go to the foo.';
 
-echo $magoo->getMasked($mySensitiveString   );
+echo $magoo->getMasked($mySensitiveString);
 
 // It is time to go to the bar.
