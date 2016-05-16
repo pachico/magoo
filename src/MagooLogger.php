@@ -35,7 +35,6 @@ class MagooLogger
 
     public function __call($method, $args)
     {
-
         $message = $args[0];
 
         $maskedMessage = $this->maskManager->getMasked($message);

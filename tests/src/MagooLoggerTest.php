@@ -16,7 +16,7 @@ use Psr\Log\LogLevel;
 /**
  *
  */
-class MagooLogggerTest extends \PHPUnit_Framework_TestCase
+class MagooLoggerTest extends \PHPUnit_Framework_TestCase
 {
 
 
@@ -48,16 +48,14 @@ class MagooLogggerTest extends \PHPUnit_Framework_TestCase
         $rawString = 'My email is foo@bar.com.';
         $maskedString = 'My email is ***@bar.com.';
 
-        foreach ($this->logLevels as $logLevel)
-        {
+        foreach ($this->logLevels as $logLevel) {
             $magooLogger->{$logLevel}($rawString);
         }
 
         $records = $handler->getRecords();
 
         // Assert
-        foreach (array_keys($this->logLevels) as $key)
-        {
+        foreach (array_keys($this->logLevels) as $key) {
             $this->assertSame($maskedString, $records[$key]['message']);
         }
     }
@@ -97,6 +95,4 @@ class MagooLogggerTest extends \PHPUnit_Framework_TestCase
         // Assert
         $this->assertSame($magoo, $magooLogger->getMagoo());
     }
-
-
 }
