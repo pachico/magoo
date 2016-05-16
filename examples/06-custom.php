@@ -31,7 +31,7 @@ class FooMask implements \Pachico\Magoo\Mask\MaskInterface
 
 $magoo = new Magoo();
 $customMask = new FooMask(['replacement' => 'bar']);
-$magoo->addCustomMask($customMask);
+$magoo->pushMask($customMask);
 
 $mySensitiveString = 'It is time to go to the foo.';
 

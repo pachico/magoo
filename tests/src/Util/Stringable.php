@@ -8,23 +8,26 @@
  * @license https://raw.githubusercontent.com/pachico/magoo/master/LICENSE.md MIT
  */
 
-namespace Pachico\Magoo\Mask;
+namespace Pachico\Magoo\Util;
 
-/**
- * Masks must implement this interface since
- * mask() method will be executed for all of them
- */
-interface MaskInterface
+class Stringable
 {
-    /**
-     * @param array $params
-     */
-    public function __construct(array $params = []);
+    protected $value;
 
     /**
-     * Masks a given string
-     *
-     * @param string $string
+     * Dummy class with __toString implementation
+     * for test purposes
      */
-    public function mask($string);
+    public function __construct($value)
+    {
+        $this->value = $value;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->value;
+    }
 }

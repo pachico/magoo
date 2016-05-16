@@ -13,9 +13,9 @@ require __DIR__ . '/../vendor/autoload.php';
 use Pachico\Magoo\Magoo;
 
 $magoo = new Magoo();
-$magoo->maskCreditCards()
-    ->maskEmails()
-    ->maskByRegex('/(email)+/m');
+$magoo->pushCreditCardMask()
+    ->pushEmailMask()
+    ->pushByRegexMask('/(email)+/m');
 
 $mySensitiveString = 'My email is roy@trenneman.com and my credit card is 6011792594656742';
 

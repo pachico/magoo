@@ -28,7 +28,7 @@ class Email implements MaskInterface
     protected $replacementDomain = null;
 
     /**
-     * @param array $params
+     * {@inheritDoc}
      */
     public function __construct(array $params = [])
     {
@@ -76,9 +76,7 @@ class Email implements MaskInterface
     }
 
     /**
-     * @param string $string
-     *
-     * @return string
+     * {@inheritDoc}
      */
     public function mask($string)
     {

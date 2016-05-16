@@ -33,7 +33,8 @@
     },
     "minimum-stability": "stable",
     "require": {
-        "php": ">=5.4.0"
+        "php": ">=5.4.0",
+        "psr/log": "1.0.*"
     },
     "scripts": {
         "test": "phpunit"
@@ -42,7 +43,8 @@
         "phpunit/phpunit": "4.8.24",
         "phpunit/phpunit-skeleton-generator": "2.0.1",
         "codacy/coverage": "dev-master",
-        "squizlabs/php_codesniffer": "^2.5"
+        "squizlabs/php_codesniffer": "^2.5",
+        "monolog/monolog": "1.19.*"
     },
     "extra": {
         "branch-alias": {
