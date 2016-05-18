@@ -10,6 +10,8 @@
 
 namespace Pachico\Magoo\Mask;
 
+use Pachico\Magoo\Validator;
+
 /**
  * All credit card numbers have been randomly generated using http://www.getcreditcardnumbers.com/
  */
@@ -38,38 +40,41 @@ class CreditCardTest extends \PHPUnit_Framework_TestCase
     ];
 
     /**
-     * @var Pachico\Magoo\Mask\Creditcard
+     * @var Creditcard
      */
-    protected $object;
+    protected $creditCardMask;
 
     protected function setUp()
     {
-        $this->object = new Creditcard;
+        $this->creditCardMask = new Creditcard;
     }
 
+    /**
+     * Test that
+     */
     public function testConstructor()
     {
-        $this->object = new Creditcard(
+        $this->creditCardMask = new Creditcard(
             [
             'replacement' => '$'
             ],
-            new \Pachico\Magoo\Util\Luhn
+            new Validator\Luhn()
         );
 
         foreach ($this->validCcs as $input => $output) {
             $output = str_replace('*', '$', $output);
-            $this->assertSame($this->object->mask($input), $output);
+            $this->assertSame($this->creditCardMask->mask($input), $output);
         }
     }
 
     public function testMask()
     {
         foreach ($this->validCcs as $input => $output) {
-            $this->assertSame($this->object->mask($input), $output);
+            $this->assertSame($this->creditCardMask->mask($input), $output);
         }
 
         foreach ($this->invalidCcs as $input) {
-            $this->assertSame($this->object->mask($input), $input);
+            $this->assertSame($this->creditCardMask->mask($input), $input);
         }
     }
 }

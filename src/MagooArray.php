@@ -11,7 +11,8 @@
 namespace Pachico\Magoo;
 
 /**
- * MagooArray
+ * MagooArray acts as Magoo but for (multidimensional) trying to convert
+ * to string everything it can and masking it.
  */
 class MagooArray
 {
@@ -31,7 +32,7 @@ class MagooArray
     /**
      * @param mixed $input
      *
-     * @return mixed
+     * @return string|object
      */
     protected function maskIndividualValue($input)
     {
@@ -57,6 +58,7 @@ class MagooArray
 
     /**
      * @param array $input
+     * 
      * @return array
      */
     protected function maskMultiDimensionalStructure(array $input)

@@ -10,11 +10,16 @@
 
 namespace Pachico\Magoo;
 
+use Pachico\Magoo\Dummy;
+
 /**
- *
+ * Test MagooArray class by passing arrays and see the masked output
  */
 class MagooArrayTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * Testing that class iterates over given array
+     */
     public function testGetMasked()
     {
         // Arrange
@@ -46,7 +51,7 @@ class MagooArrayTest extends \PHPUnit_Framework_TestCase
                 'din@don'
             ],
             'tip',
-            new Util\Stringable('foo string')
+            new Dummy\Stringable('foo string')
         ];
 
         $expectedOutputArray = [
@@ -87,7 +92,10 @@ class MagooArrayTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($expectedOutputArray, $outputArray);
     }
 
-    public function testGetMagoo()
+    /**
+     * Test that getMaskManager returns Magoo or compatible
+     */
+    public function testGetMaskManager()
     {
         // Arrange
         $magoo = new Magoo();
@@ -99,9 +107,5 @@ class MagooArrayTest extends \PHPUnit_Framework_TestCase
 
         // Assert
         $this->assertSame($magoo, $magooArray->getMaskManager());
-    }
-
-    public function testMaskIndividualValue()
-    {
     }
 }

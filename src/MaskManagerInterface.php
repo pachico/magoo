@@ -10,6 +10,8 @@
 
 namespace Pachico\Magoo;
 
+use \InvalidArgumentException;
+
 /**
  * Interface Magoo and compatibles must implement
  */
@@ -37,7 +39,7 @@ interface MaskManagerInterface
      *
      * @param string $input Input string to be masked
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      *
      * @return string Masked string
      */

@@ -8,26 +8,18 @@
  * @license https://raw.githubusercontent.com/pachico/magoo/master/LICENSE.md MIT
  */
 
-namespace Pachico\Magoo\Util;
+namespace Pachico\Magoo\Validator;
 
-class Stringable
+/**
+ * Validators must implement this interface
+ */
+interface ValidatorInterface
 {
-    protected $value;
-
     /**
-     * Dummy class with __toString implementation
-     * for test purposes
+     * @param string|int $input
+     *
+     * @return bool If sequence is valid Luhn
      */
-    public function __construct($value)
-    {
-        $this->value = $value;
-    }
+    public function isValid($input);
 
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return (string) $this->value;
-    }
 }

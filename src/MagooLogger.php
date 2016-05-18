@@ -11,21 +11,27 @@
 namespace Pachico\Magoo;
 
 use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
 
+/**
+ * MagooLogger acts as a middleware between your application and a PSR3 logger
+ * masking every message passed to it
+ */
 class MagooLogger
 {
     /**
-     * @var \LoggerInterface
+     * @var LoggerInterface
      */
     protected $logger;
+    
     /**
-     * @var Magoo
+     * @var MaskManagerInterface
      */
     protected $maskManager;
 
     /**
      * @param LoggerInterface $logger
-     * @param \Pachico\Magoo\Magoo $magoo
+     * @param MaskManagerInterface $maskManager
      */
     public function __construct(LoggerInterface $logger, MaskManagerInterface $maskManager)
     {
@@ -33,15 +39,35 @@ class MagooLogger
         $this->maskManager = $maskManager;
     }
 
+    /**
+     * @param string $method
+     * @param array $args
+     *
+     * @return null
+     */
     public function __call($method, $args)
     {
-        $message = $args[0];
+        switch ($method) {
+            case LogLevel::ALERT:
+            case LogLevel::CRITICAL:
+            case LogLevel::DEBUG:
+            case LogLevel::EMERGENCY:
+            case LogLevel::ERROR:
+            case LogLevel::INFO:
+            case LogLevel::NOTICE:
+            case LogLevel::WARNING:
+                $message = $args[0];
+                $maskedMessage = $this->maskManager->getMasked($message);
+                $args[0] = $maskedMessage;
+                break;
+            case 'log':
+                $message = $args[1];
+                $maskedMessage = $this->maskManager->getMasked($message);
+                $args[1] = $maskedMessage;
+                break;
+        }
 
-        $maskedMessage = $this->maskManager->getMasked($message);
-
-        $args[0] = $maskedMessage;
-
-        return call_user_func_array(
+        call_user_func_array(
             array(
                 $this->logger,
                 $method
@@ -61,7 +87,7 @@ class MagooLogger
     /**
      * @return MaskManagerInterface
      */
-    public function getMagoo()
+    public function getMaskManager()
     {
         return $this->maskManager;
     }

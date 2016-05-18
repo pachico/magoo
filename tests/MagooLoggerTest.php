@@ -14,12 +14,15 @@ use Monolog\Handler\TestHandler;
 use Psr\Log\LogLevel;
 
 /**
- *
+ * Test for MagooLogger
  */
 class MagooLoggerTest extends \PHPUnit_Framework_TestCase
 {
-
-
+    /**
+     *  Contains PSR3 log levels
+     *
+     * @var array
+     */
     protected $logLevels = [
         LogLevel::ALERT,
         LogLevel::CRITICAL,
@@ -31,9 +34,12 @@ class MagooLoggerTest extends \PHPUnit_Framework_TestCase
         LogLevel::WARNING
     ];
 
+    /**
+     * Testing that String passed to MagooLogger using log levels gets
+     * masked and added in logger
+     */
     public function testLogLevels()
     {
-
         // Arrange
         $magoo = new Magoo();
         $magoo->pushEmailMask();
@@ -60,6 +66,36 @@ class MagooLoggerTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * Testing that String passed to MagooLogger using arbitrary log level gets
+     * masked and added in logger
+     */
+    public function testLogMethod()
+    {
+        // Arrange
+        $magoo = new Magoo();
+        $magoo->pushEmailMask();
+
+        $logger = new Logger('app');
+        $handler = new TestHandler();
+        $logger->pushHandler($handler);
+
+        $magooLogger = new MagooLogger($logger, $magoo);
+
+        // Act
+        $rawString = 'My email is foo@bar.com.';
+        $maskedString = 'My email is ***@bar.com.';
+        $magooLogger->log(100, $rawString);
+        $records = $handler->getRecords();
+
+        // Assert
+        $this->assertSame($maskedString, $records[0]['message']);
+
+    }
+
+    /**
+     * Testing Logger getter
+     */
     public function testGetLogger()
     {
         // Arrange
@@ -78,7 +114,10 @@ class MagooLoggerTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($logger, $magooLogger->getLogger());
     }
 
-    public function testGetMagoo()
+    /**
+     * Testing Magoo
+     */
+    public function testGetMaskManager()
     {
         // Arrange
         $magoo = new Magoo();
@@ -93,6 +132,6 @@ class MagooLoggerTest extends \PHPUnit_Framework_TestCase
         // Act
 
         // Assert
-        $this->assertSame($magoo, $magooLogger->getMagoo());
+        $this->assertSame($magoo, $magooLogger->getMaskManager());
     }
 }
