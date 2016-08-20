@@ -33,7 +33,7 @@ $magoo = new Magoo();
 $customMask = new FooMask(['replacement' => 'bar']);
 $magoo->pushMask($customMask);
 
-$mySensitiveString = 'It is time to go to the foo.';
+$mySensitiveString = 'It is time to go to the foo.'. PHP_EOL;
 
 echo $magoo->getMasked($mySensitiveString);
 

@@ -19,6 +19,6 @@ $magoo->pushCreditCardMask()
 
 $mySensitiveString = 'My email is roy@trenneman.com and my credit card is 6011792594656742';
 
-echo $magoo->getMasked($mySensitiveString);
+echo $magoo->getMasked($mySensitiveString . PHP_EOL);
 
 // 'My ***** is ***@trenneman.com and my credit card is ************6742'

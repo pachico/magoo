@@ -11,6 +11,7 @@
 namespace Pachico\Magoo;
 
 use \InvalidArgumentException;
+use Pachico\Magoo\Mask\MaskInterface;
 
 /**
  * Interface Magoo and compatibles must implement
@@ -28,11 +29,11 @@ interface MaskManagerInterface
     /**
      * Adds a custom mask instance
      *
-     * @param \Pachico\Magoo\Mask\MaskInterface $customMask
+     * @param MaskInterface $customMask
      *
      * @return MaskManagerInterface
      */
-    public function pushMask(Mask\MaskInterface $customMask);
+    public function pushMask(MaskInterface $customMask);
 
     /**
      * Applies all masks to a given string

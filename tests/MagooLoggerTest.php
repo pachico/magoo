@@ -90,7 +90,6 @@ class MagooLoggerTest extends \PHPUnit_Framework_TestCase
 
         // Assert
         $this->assertSame($maskedString, $records[0]['message']);
-
     }
 
     /**

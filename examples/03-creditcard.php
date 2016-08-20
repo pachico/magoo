@@ -17,6 +17,6 @@ $magoo->pushCreditCardMask('·');
 
 $mySensitiveString = 'This is my credit card number: 4111 1111 1111 1111.';
 
-echo $magoo->getMasked($mySensitiveString);
+echo $magoo->getMasked($mySensitiveString. PHP_EOL);
 
 // This is my credit card number: ······1111.

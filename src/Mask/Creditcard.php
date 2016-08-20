@@ -10,7 +10,8 @@
 
 namespace Pachico\Magoo\Mask;
 
-use Pachico\Magoo\Validator;
+use Pachico\Magoo\Validator\ValidatorInterface;
+use Pachico\Magoo\Validator\Luhn;
 
 /**
  * The concept behind this is:
@@ -26,21 +27,21 @@ class Creditcard implements MaskInterface
     protected $replacement = '*';
 
     /**
-     * @var Validation\ValidatorInterface
+     * @var ValidatorInterface
      */
     protected $luhnValidator;
 
     /**
      * @param array $params
      */
-    public function __construct(array $params = [], Validator\ValidatorInterface $luhnValidator = null)
+    public function __construct(array $params = [], ValidatorInterface $luhnValidator = null)
     {
         if (isset($params['replacement']) && is_string($params['replacement'])) {
             $this->replacement = $params['replacement'];
         }
 
         $this->luhnValidator = $luhnValidator ?
-            : new Validator\Luhn();
+            : new Luhn();
     }
 
     /**
