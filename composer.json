@@ -44,10 +44,5 @@
         "codacy/coverage": "dev-master",
         "squizlabs/php_codesniffer": "^2.5",
         "monolog/monolog": "1.19.*"
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "2.0-dev"
-        }
     }
 }
