@@ -16,6 +16,16 @@ use Psr\Log\LogLevel;
 /**
  * MagooLogger acts as a middleware between your application and a PSR3 logger
  * masking every message passed to it
+ *
+ * @method string emergency
+ * @method string alert
+ * @method string critical
+ * @method string error
+ * @method string warning
+ * @method string notice
+ * @method string info
+ * @method string debug
+ * @method string log
  */
 class MagooLogger
 {
@@ -23,7 +33,7 @@ class MagooLogger
      * @var LoggerInterface
      */
     protected $logger;
-    
+
     /**
      * @var MaskManagerInterface
      */
@@ -56,13 +66,11 @@ class MagooLogger
             case LogLevel::INFO:
             case LogLevel::NOTICE:
             case LogLevel::WARNING:
-                $message = $args[0];
-                $maskedMessage = $this->maskManager->getMasked($message);
+                $maskedMessage = $this->maskManager->getMasked($args[0]);
                 $args[0] = $maskedMessage;
                 break;
             case 'log':
-                $message = $args[1];
-                $maskedMessage = $this->maskManager->getMasked($message);
+                $maskedMessage = $this->maskManager->getMasked($args[1]);
                 $args[1] = $maskedMessage;
                 break;
         }
