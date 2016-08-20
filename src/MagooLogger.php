@@ -12,6 +12,10 @@ namespace Pachico\Magoo;
 
 use Psr\Log\LoggerInterface;
 
+/**
+ * MagooLogger will mask input passed to psr7 compliant loggers
+ * using Magoo Masks
+ */
 class MagooLogger
 {
     /**
@@ -25,7 +29,7 @@ class MagooLogger
 
     /**
      * @param LoggerInterface $logger
-     * @param \Pachico\Magoo\Magoo $magoo
+     * @param \Pachico\Magoo\Magoo $maskManager
      */
     public function __construct(LoggerInterface $logger, MaskManagerInterface $maskManager)
     {
@@ -33,6 +37,12 @@ class MagooLogger
         $this->maskManager = $maskManager;
     }
 
+    /**
+     * @param string $method
+     * @param array $args
+     *
+     * @return mixed
+     */
     public function __call($method, $args)
     {
         $message = $args[0];

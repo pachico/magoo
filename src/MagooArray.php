@@ -11,7 +11,8 @@
 namespace Pachico\Magoo;
 
 /**
- * MagooArray
+ * MagooArray will mask strings in multidimensional arrays
+ * using Magoo masks
  */
 class MagooArray
 {
@@ -57,6 +58,7 @@ class MagooArray
 
     /**
      * @param array $input
+     *
      * @return array
      */
     protected function maskMultiDimensionalStructure(array $input)

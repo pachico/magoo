@@ -18,8 +18,8 @@ class Luhn implements Utilinterface
 {
 
     /**
-     *
      * @param string $input
+     * 
      * @return bool
      */
     public function isLuhn($input)
