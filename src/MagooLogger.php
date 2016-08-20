@@ -17,15 +17,15 @@ use Psr\Log\LogLevel;
  * MagooLogger acts as a middleware between your application and a PSR3 logger
  * masking every message passed to it
  *
- * @method string emergency
- * @method string alert
- * @method string critical
- * @method string error
- * @method string warning
- * @method string notice
- * @method string info
- * @method string debug
- * @method string log
+ * @method null emergency($message, array $context)
+ * @method null alert($message, array $context)
+ * @method null critical($message, array $context)
+ * @method null error($message, array $context)
+ * @method null warning($message, array $context)
+ * @method null notice($message, array $context)
+ * @method null info($message, array $context)
+ * @method null debug($message, array $context)
+ * @method null log($message, array $context)
  */
 class MagooLogger
 {
