@@ -8,21 +8,18 @@
  * @license https://raw.githubusercontent.com/pachico/magoo/master/LICENSE.md MIT
  */
 
-namespace Pachico\Magoo\Util;
+namespace Pachico\Magoo\Validator;
 
 /**
  * Simple class related to Luhn algorithm
  * @see https://en.wikipedia.org/wiki/Luhn_algorithm
  */
-class Luhn implements Utilinterface
+class Luhn implements ValidatorInterface
 {
-
     /**
-     * @param string $input
-     * 
-     * @return bool
+     * {@inheritDoc}
      */
-    public function isLuhn($input)
+    public function isValid($input)
     {
         if (!is_numeric($input)) {
             return false;

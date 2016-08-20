@@ -10,8 +10,10 @@
 
 namespace Pachico\Magoo;
 
+use \InvalidArgumentException;
+
 /**
- * Magoo will mask sensitive data from strings
+ * Magoo will mask sensitive data from strings.
  */
 class Magoo implements MaskManagerInterface
 {
@@ -27,7 +29,7 @@ class Magoo implements MaskManagerInterface
      *
      * @param string $replacement Character to replace matches
      *
-     * @return \Pachico\Magoo\Magoo
+     * @return Magoo
      */
     public function pushCreditCardMask($replacement = '*')
     {
@@ -46,7 +48,7 @@ class Magoo implements MaskManagerInterface
      * @param string $regex Regex to be executed
      * @param string $replacement Character to replacen  matches
      *
-     * @return \Pachico\Magoo\Magoo
+     * @return Magoo
      */
     public function pushByRegexMask($regex, $replacement = '*')
     {
@@ -68,7 +70,7 @@ class Magoo implements MaskManagerInterface
      * @param string $localReplacement Character to replace local part of email
      * @param string $domainReplacement Character to replace domain part of email
      *
-     * @return \Pachico\Magoo\Magoo
+     * @return Magoo
      */
     public function pushEmailMask($localReplacement = '*', $domainReplacement = null)
     {
@@ -115,8 +117,8 @@ class Magoo implements MaskManagerInterface
     public function getMasked($input)
     {
         if (!is_string($input)) {
-            throw new \InvalidArgumentException(
-                'Message to be masked needs to string. ' . gettype($input) . ' passed.'
+            throw new InvalidArgumentException(
+                'Message to be masked needs to string - ' . gettype($input) . ' passed.'
             );
         }
 

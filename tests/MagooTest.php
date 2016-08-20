@@ -10,6 +10,9 @@
 
 namespace Pachico\Magoo;
 
+/**
+ * Tests Magoo class and its masks
+ */
 class MagooTest extends \PHPUnit_Framework_TestCase
 {
     protected $magoo;
@@ -19,6 +22,9 @@ class MagooTest extends \PHPUnit_Framework_TestCase
         $this->magoo = new Magoo;
     }
 
+    /**
+     * Test multiple masks applied to a string using fluid interface
+     */
     public function testChainedMasks()
     {
         // Arrange
@@ -38,6 +44,9 @@ class MagooTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * Test chainable interface
+     */
     public function testChainableMasks()
     {
         // Arrange
@@ -53,6 +62,9 @@ class MagooTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Pachico\Magoo\Magoo', $this->magoo->reset());
     }
 
+    /**
+     * Test that reset method deletes all previously added masks
+     */
     public function testReset()
     {
         // Arrange
@@ -69,6 +81,9 @@ class MagooTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($this->magoo->getMasked($string), $string);
     }
 
+    /**
+     * Test test email masking
+     */
     public function testEmailMask()
     {
         // Arrange
@@ -84,6 +99,9 @@ class MagooTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * Test credit card masking
+     */
     public function testCreditcardMask()
     {
         // Arrange
@@ -99,6 +117,9 @@ class MagooTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * Test Regex mask
+     */
     public function testRegexMask()
     {
         // Arrange
@@ -124,6 +145,9 @@ class MagooTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * Test that if no mask is pushed, the passed string is not altered
+     */
     public function testNoMask()
     {
         // Arrange
@@ -138,6 +162,9 @@ class MagooTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * Test that if a custom mask is added it will be called
+     */
     public function testCustomMask()
     {
         // Arrange
@@ -154,7 +181,10 @@ class MagooTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test that only strings can be passed to getMasked
+     *
      * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Message to be masked needs to string - array passed.
      */
     public function testGetMaskedException()
     {

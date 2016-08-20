@@ -8,10 +8,16 @@
  * @license https://raw.githubusercontent.com/pachico/magoo/master/LICENSE.md MIT
  */
 
-namespace Pachico\Magoo\Util;
+namespace Pachico\Magoo\Validator;
 
+/**
+ * Tests the Luhn sequence validator
+ */
 class LuhnTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var Contains valid Luhn sequences
+     */
     protected $validLuhns = [
         4143835214588534,
         4929210174798392,
@@ -49,9 +55,9 @@ class LuhnTest extends \PHPUnit_Framework_TestCase
         '6011835424793183',
         '6011132420996931'
     ];
+
     /**
-     *
-     * @var array
+     * @var Contains invalid Luhn sequences
      */
     protected $invalidLuhns = [
         45173835214588534,
@@ -68,21 +74,24 @@ class LuhnTest extends \PHPUnit_Framework_TestCase
         '5320294088636774',
         'aksdla sdlakjs d'
     ];
-    protected $object;
 
-    protected function setUp()
+    /**
+     * Tests if Luhn validator is able to detect valid Luhn sequences
+     */
+    public function testIsValid()
     {
-        $this->object = new Luhn;
-    }
+        // Arrange
+        $luhnValidator = new Luhn;
 
-    public function testIsLuhn()
-    {
+        // Arrange
+
+        // Assert
         foreach ($this->validLuhns as $number) {
-            $this->assertTrue($this->object->isLuhn($number));
+            $this->assertTrue($luhnValidator->isValid($number));
         }
 
         foreach ($this->invalidLuhns as $number) {
-            $this->assertFalse($this->object->isLuhn($number));
+            $this->assertFalse($luhnValidator->isValid($number));
         }
     }
 }
