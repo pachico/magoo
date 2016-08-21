@@ -1,12 +1,32 @@
 # Pachico\Magoo
 
-[![Build Status](https://travis-ci.org/pachico/magoo.svg?branch=master)](https://travis-ci.org/pachico/magoo) [![codecov.io](https://codecov.io/github/pachico/magoo/coverage.svg?branch=master)](https://codecov.io/github/pachico/magoo?branch=master) [![Codacy Badge](https://api.codacy.com/project/badge/grade/226d0d2e91354a8eac06569a115c056c)](https://www.codacy.com/app/pachico/magoo) [![Codacy Badge](https://api.codacy.com/project/badge/coverage/226d0d2e91354a8eac06569a115c056c)](https://www.codacy.com/app/pachico/magoo) [![StyleCI](https://styleci.io/repos/54375622/shield)](https://styleci.io/repos/54375622) 
+[![Build Status](https://travis-ci.org/pachico/magoo.svg?branch=master)](https://travis-ci.org/pachico/magoo) [![codecov.io](https://codecov.io/github/pachico/magoo/coverage.svg?branch=master)](https://codecov.io/github/pachico/magoo?branch=master) [![Codacy Badge](https://api.codacy.com/project/badge/grade/226d0d2e91354a8eac06569a115c056c)](https://www.codacy.com/app/pachico/magoo) [![Codacy Badge](https://api.codacy.com/project/badge/coverage/226d0d2e91354a8eac06569a115c056c)](https://www.codacy.com/app/pachico/magoo) [![StyleCI](https://styleci.io/repos/54375622/shield)](https://styleci.io/repos/54375622)
 [![Gitter](https://badges.gitter.im/pachico/magoo.svg)](https://gitter.im/pachico/magoo?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge)
 
-Magoo will mask sensitive data in strings. Built-in masks use regex to find credit card numbers and emails and will mask only those, leaving the rest of the string intact. This might be useful, for instance, to log sensitive user input.
+Magoo will mask sensitive data in strings. Built-in masks use regex to find credit card numbers, emails, etc. and will mask only those, leaving the rest of the string intact. This might be useful, for instance, to log sensitive user input.
 You can also mask strings that match your own regex or inject masking class as long as they implement a simple interface.
+You can also mask the strings in multidimensional arrays and use it to mask [PSR-3](http://www.php-fig.org/psr/psr-3/) compliant logger utilities, such as Monolog.
 
 Use the [issues](https://github.com/pachico/magoo/issues) page to request masks to implement.
+
+## Table of contents
+
+ - [Install](#install)
+ - [Usage](#usage)
+ -- [Generic](#generic)
+ -- [Masks credit cards](#mask-credit-cards)
+ -- [Masks emails](#mask-emails)
+ -- [Mask by regex](#mask-by-regex)
+ -- [Reset](#reset)
+ -- [Custom masks](#custom-masks)
+ - [Mask arrays](#mask-arrays)
+ - [Mask PSR-3 logger](#mask-psr-3-logger)
+ - [Testing](#Testing)
+ - [Contributing](#contributing)
+ - [Security](#security)
+ - [Credits](#credits)
+ - [License](#license)
+ - [Help](#help)
 
 ## Install
 
@@ -131,16 +151,81 @@ class FooMask implements \Pachico\Magoo\Mask\MaskInterface
         return str_replace('foo', $this->replacement, $string);
     }
 }
-
 $magoo = new Magoo();
 $customMask = new FooMask(['replacement' => 'bar']);
 $magoo->addCustomMask($customMask);
 
 $mySensitiveString = 'It is time to go to the foo.';
 
-echo $magoo->getMasked($mySensitiveString   );
+echo $magoo->getMasked($mySensitiveString);
 
 // It is time to go to the bar.
+```
+
+## Mask arrays
+Magoo includes a handy way to mask multidimensional arrays, which can be useful, for instance, for logger contexts.
+
+```php
+use Pachico\Magoo\Magoo;
+use Pachico\Magoo\MagooArray;
+
+$magoo =new Magoo();
+$magoo->pushByRegexMask('(foo)', 'bar');
+$magooArray = new MagooArray($magoo);
+
+$mySensitiveArray = [
+    'It is time to go to the foo.',
+    [
+        'It is never too late to go the foo.'
+    ],
+    new DateTime()
+];
+
+$magooArray->getMasked($mySensitiveArray);
+```
+will output
+```php
+Array
+(
+    [0] => It is time to go to the bar.
+    [1] => Array
+        (
+            [0] => It is never too late to go the bar.
+        )
+
+    [2] => DateTime Object
+        (
+            [date] => 2020-08-21 11:44:33.000000
+            [timezone_type] => 3
+            [timezone] => UTC
+        )
+
+)
+```
+
+##Mask PSR-3 logger
+You can also use Magoo as a wrapper for PSR-3 compliant loggers.
+In this example, we use Monolog.
+
+```php
+use Pachico\Magoo\Magoo;
+use Pachico\Magoo\MagooLogger;
+use Monolog\Logger;
+use Monolog\Handler\ErrorLogHandler;
+
+$magoo = new Magoo();
+$magoo->pushByRegexMask('(foo)', 'bar');
+
+$logger = new Logger('app');
+$handler = new ErrorLogHandler();
+$logger->pushHandler($handler);
+$magooLogger = new MagooLogger($logger, $magoo);
+
+$mySensitiveString = 'It is time to go to the foo.';
+
+$magooLogger->warning($mySensitiveString);
+
+// [2020-08-20 15:54:34] app.WARNING: It is time to go to the bar. [] []
 ```
 
 ## Change log

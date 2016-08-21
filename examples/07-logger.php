@@ -15,7 +15,7 @@ use Monolog\Logger;
 use Monolog\Handler\ErrorLogHandler;
 
 $magoo = new Magoo();
-$magoo->pushEmailMask();
+$magoo->pushByRegexMask('(foo)', 'bar');
 
 $logger = new Logger('app');
 $handler = new ErrorLogHandler();
@@ -26,4 +26,4 @@ $mySensitiveString = 'It is time to go to the foo.';
 
 $magooLogger->warning($mySensitiveString);
 
-// [2016-08-20 15:54:34] app.WARNING: It is time to go to the foo. [] []
+// [2016-08-20 15:54:34] app.WARNING: It is time to go to the bar. [] []
