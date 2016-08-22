@@ -1,37 +1,48 @@
 {
-	"name": "pachico/magoo",
-	"description": "Mask credit card numbers, emails and more.",
-	"license": "MIT",
-	"keywords": [
-		"Mask",
-		"Masking",
-		"Sensitive data",
-		"Credit card",
-		"Creditcard",
-		"Email",
-		"Security",
-		"Obfuscation",
-		"Custom masking"
-	],
-	"authors": [
-		{
-			"name": "Mariano F.co Benítez Mulet",
-			"email": "nanodevel@gmail.com",
-			"role": "Developer"
-		}
-	],
-	"autoload": {
-		"psr-4": {
-			"Pachico\\Magoo\\": "src/"
-		}
-	},
-	"minimum-stability": "stable",
-	"require": {
-		"php": ">=5.4.0"
-	},
-	"require-dev": {
-		"phpunit/phpunit": "4.8.24",
-		"phpunit/phpunit-skeleton-generator": "2.0.1",
-		"codacy/coverage": "dev-master"
-	}
+    "name": "pachico/magoo",
+    "type": "library",
+    "description": "Mask credit card numbers, emails and more.",
+    "license": "MIT",
+    "keywords": [
+        "Mask",
+        "Masking",
+        "Sensitive data",
+        "Credit card",
+        "Creditcard",
+        "Email",
+        "Security",
+        "Obfuscation",
+        "Custom masking"
+    ],
+    "authors": [
+        {
+            "name": "Mariano F.co Benítez Mulet",
+            "email": "pachicodev@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Pachico\\Magoo\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Pachico\\Magoo\\": "tests/"
+        }
+    },
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=5.4.0",
+        "psr/log": "1.0.*"
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.8.24",
+        "codacy/coverage": "dev-master",
+        "squizlabs/php_codesniffer": "^2.5",
+        "monolog/monolog": "1.19.*"
+    }
 }
