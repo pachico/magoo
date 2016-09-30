@@ -55,19 +55,19 @@ class Email implements MaskInterface
         $matchReplacement = $match;
 
         if ($this->replacementLocal) {
-            $local_part = substr($match, 0, stripos($match, '@'));
+            $localPart = substr($match, 0, stripos($match, '@'));
             $matchReplacement = str_replace(
-                $local_part,
-                str_pad('', strlen($local_part), $this->replacementLocal),
+                $localPart,
+                str_pad('', strlen($localPart), $this->replacementLocal),
                 $matchReplacement
             );
         }
 
         if ($this->replacementDomain) {
-            $domain_part = substr($match, stripos($match, '@') + 1);
+            $domainPart = substr($match, stripos($match, '@') + 1);
             $matchReplacement = str_replace(
-                $domain_part,
-                str_pad('', strlen($domain_part), $this->replacementDomain),
+                $domainPart,
+                str_pad('', strlen($domainPart), $this->replacementDomain),
                 $matchReplacement
             );
         }
@@ -93,8 +93,8 @@ class Email implements MaskInterface
         if (!isset($matches[0]) || empty($matches[0])) {
             return $string;
         }
-        foreach ($matches as $match_group) {
-            foreach ($match_group as $match) {
+        foreach ($matches as $matchGroup) {
+            foreach ($matchGroup as $match) {
                 $string = str_replace($match, $this->maskIndividualEmailMatch($match), $string);
             }
         }
