@@ -10,34 +10,57 @@
 
 namespace Pachico\Magoo;
 
+use Pachico\Magoo\MagooArray;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
+use BadMethodCallException;
+use InvalidArgumentException;
+use Exception;
 
 /**
  * MagooLogger acts as a middleware between your application and a PSR3 logger
  * masking every message passed to it
  *
- * @method null emergency($message, array $context)
- * @method null alert($message, array $context)
- * @method null critical($message, array $context)
- * @method null error($message, array $context)
- * @method null warning($message, array $context)
- * @method null notice($message, array $context)
- * @method null info($message, array $context)
- * @method null debug($message, array $context)
- * @method null log($message, array $context)
+ * @method null emergency($message, array $context = null)
+ * @method null alert($message, array $context = null)
+ * @method null critical($message, array $context = null)
+ * @method null error($message, array $context = null)
+ * @method null warning($message, array $context = null)
+ * @method null notice($message, array $context = null)
+ * @method null info($message, array $context = null)
+ * @method null debug($message, array $context = null)
+ * @method null log($level, $message, array $context = null)
  */
 class MagooLogger
 {
     /**
      * @var LoggerInterface
      */
-    protected $logger;
+    private $logger;
 
     /**
      * @var MaskManagerInterface
      */
-    protected $maskManager;
+    private $maskManager;
+
+    /**
+     * @var MagooArray
+     */
+    private $magooArray;
+
+    /**
+     * @var array Possible PSR3 log levels
+     */
+    private $logLevels = [
+        LogLevel::ALERT,
+        LogLevel::CRITICAL,
+        LogLevel::DEBUG,
+        LogLevel::EMERGENCY,
+        LogLevel::ERROR,
+        LogLevel::INFO,
+        LogLevel::NOTICE,
+        LogLevel::WARNING
+    ];
 
     /**
      * @param LoggerInterface $logger
@@ -47,6 +70,7 @@ class MagooLogger
     {
         $this->logger = $logger;
         $this->maskManager = $maskManager;
+        $this->magooArray = new MagooArray($maskManager);
     }
 
     /**
@@ -54,34 +78,36 @@ class MagooLogger
      * @param array $args
      *
      * @return mixed
+     *
+     * @throws InvalidArgumentException
+     *
+     * @throws BadMethodCallException
      */
     public function __call($method, $args)
     {
-        switch ($method) {
-            case LogLevel::ALERT:
-            case LogLevel::CRITICAL:
-            case LogLevel::DEBUG:
-            case LogLevel::EMERGENCY:
-            case LogLevel::ERROR:
-            case LogLevel::INFO:
-            case LogLevel::NOTICE:
-            case LogLevel::WARNING:
-                $maskedMessage = $this->maskManager->getMasked($args[0]);
-                $args[0] = $maskedMessage;
-                break;
-            case 'log':
-                $maskedMessage = $this->maskManager->getMasked($args[1]);
-                $args[1] = $maskedMessage;
-                break;
+        if (in_array($method, $this->logLevels)) {
+            $maskedMessage = $this->maskManager->getMasked($args[0]);
+            $args[0] = $maskedMessage;
+            if (isset($args[1])) {
+                $args[1] = $this->magooArray->getMasked($args[1]);
+            }
+        } elseif ('log' === $method) {
+            $maskedMessage = $this->maskManager->getMasked($args[1]);
+            $args[1] = $maskedMessage;
+            if (isset($args[2])) {
+                $args[2] = $this->magooArray->getMasked($args[2]);
+            }
+        } else {
+            throw new BadMethodCallException(
+                sprintf('%s method does not exist in %s.', $method, get_class($this->logger))
+            );
         }
 
-        call_user_func_array(
-            array(
-                $this->logger,
-                $method
-            ),
-            $args
-        );
+        try {
+            call_user_func_array([$this->logger, $method], $args);
+        } catch (Exception $exc) {
+            throw $exc;
+        }
     }
 
     /**

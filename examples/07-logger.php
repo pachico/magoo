@@ -12,18 +12,33 @@ require __DIR__ . '/../vendor/autoload.php';
 use Pachico\Magoo\Magoo;
 use Pachico\Magoo\MagooLogger;
 use Monolog\Logger;
-use Monolog\Handler\ErrorLogHandler;
+use Monolog\Handler\StreamHandler;
 
 $magoo = new Magoo();
 $magoo->pushByRegexMask('(foo)', 'bar');
 
 $logger = new Logger('app');
-$handler = new ErrorLogHandler();
-$logger->pushHandler($handler);
+$logger->pushHandler(new StreamHandler('php://stdout'));
 $magooLogger = new MagooLogger($logger, $magoo);
 
 $mySensitiveString = 'It is time to go to the foo.';
 
-$magooLogger->warning($mySensitiveString);
+$magooLogger->warning($mySensitiveString,
+    [
+    'first' => 'It is time to go to the foo.',
+    'second' => 'Nothing like Living in foocelona'
+    ]
+);
 
-// [2016-08-20 15:54:34] app.WARNING: It is time to go to the bar. [] []
+$magooLogger->log('debug', $mySensitiveString, [
+    'It is time to go to the foo.'
+]);
+
+$magooLogger->foo('debug', $mySensitiveString, [
+    'It is time to go to the foo.'
+]);
+
+
+//[2016-09-30 13:01:28] app.WARNING: It is time to go to the bar. {"first":"It is time to go to the bar.","second":"Nothing like Living in barcelona"} []
+//[2016-09-30 13:01:28] app.DEBUG: It is time to go to the bar. ["It is time to go to the bar."] []
+

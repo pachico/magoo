@@ -52,27 +52,27 @@ class Email implements MaskInterface
      */
     protected function maskIndividualEmailMatch($match)
     {
-        $match_replacement = $match;
+        $matchReplacement = $match;
 
         if ($this->replacementLocal) {
             $local_part = substr($match, 0, stripos($match, '@'));
-            $match_replacement = str_replace(
+            $matchReplacement = str_replace(
                 $local_part,
                 str_pad('', strlen($local_part), $this->replacementLocal),
-                $match_replacement
+                $matchReplacement
             );
         }
 
         if ($this->replacementDomain) {
             $domain_part = substr($match, stripos($match, '@') + 1);
-            $match_replacement = str_replace(
+            $matchReplacement = str_replace(
                 $domain_part,
                 str_pad('', strlen($domain_part), $this->replacementDomain),
-                $match_replacement
+                $matchReplacement
             );
         }
 
-        return $match_replacement;
+        return $matchReplacement;
     }
 
     /**
@@ -88,14 +88,11 @@ class Email implements MaskInterface
             . "(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/";
 
         $matches = [];
-
         preg_match_all($regex, $string, $matches);
 
-        // No email found
         if (!isset($matches[0]) || empty($matches[0])) {
             return $string;
         }
-
         foreach ($matches as $match_group) {
             foreach ($match_group as $match) {
                 $string = str_replace($match, $this->maskIndividualEmailMatch($match), $string);

@@ -17,4 +17,4 @@ script:
     - vendor/bin/phpunit
 after_success:
     - bash <(curl -s https://codecov.io/bash)
-    - php vendor/bin/codacycoverage clover test/code_coverage/clover.xml
+    - php vendor/bin/codacycoverage clover build/logs/coverage.xml

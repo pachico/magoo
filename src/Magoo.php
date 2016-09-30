@@ -95,8 +95,8 @@ class Magoo implements MaskManagerInterface
      */
     public function pushMask(Mask\MaskInterface $customMask)
     {
-        $unique_id = uniqid('mask-custom-');
-        $this->masks[$unique_id] = $customMask;
+        $uniqueId = uniqid('mask-custom-');
+        $this->masks[$uniqueId] = $customMask;
 
         return $this;
     }

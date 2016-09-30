@@ -25,25 +25,18 @@ class Luhn implements ValidatorInterface
             return false;
         }
 
-        $numeric_string = (string) preg_replace('/\D/', '', $input);
-
+        $numericString = (string) preg_replace('/\D/', '', $input);
         $sum = 0;
-
-        $numDigits = strlen($numeric_string) - 1;
-
+        $numDigits = strlen($numericString) - 1;
         $parity = $numDigits % 2;
-
         for ($i = $numDigits; $i >= 0; $i--) {
-            $digit = substr($numeric_string, $i, 1);
-
+            $digit = substr($numericString, $i, 1);
             if (!$parity == ($i % 2)) {
                 $digit <<= 1;
             }
-
             $digit = ($digit > 9)
                 ? ($digit - 9)
                 : $digit;
-
             $sum += $digit;
         }
 
