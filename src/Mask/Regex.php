@@ -15,7 +15,6 @@ namespace Pachico\Magoo\Mask;
  */
 class Regex implements MaskInterface
 {
-
     /**
      * @var string
      */

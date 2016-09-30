@@ -18,7 +18,6 @@ use Pachico\Magoo\Mask\MaskInterface;
  */
 interface MaskManagerInterface
 {
-
     /**
      * Resets Magoo by clearing all previously added masks
      *

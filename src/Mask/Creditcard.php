@@ -20,7 +20,6 @@ use Pachico\Magoo\Validator\Luhn;
  */
 class Creditcard implements MaskInterface
 {
-
     /**
      * @var string
      */
@@ -33,6 +32,7 @@ class Creditcard implements MaskInterface
 
     /**
      * @param array $params
+     * @param ValidatorInterface $luhnValidator
      */
     public function __construct(array $params = [], ValidatorInterface $luhnValidator = null)
     {
@@ -40,8 +40,7 @@ class Creditcard implements MaskInterface
             $this->replacement = $params['replacement'];
         }
 
-        $this->luhnValidator = $luhnValidator ?
-            : new Luhn();
+        $this->luhnValidator = $luhnValidator ?: new Luhn();
     }
 
     /**
@@ -53,9 +52,7 @@ class Creditcard implements MaskInterface
     public function mask($string)
     {
         $regex = '/(?:\d[ \t-]*?){13,19}/m';
-
         $matches = [];
-
         preg_match_all($regex, $string, $matches);
 
         // No credit card found
@@ -63,19 +60,16 @@ class Creditcard implements MaskInterface
             return $string;
         }
 
-        foreach ($matches as $match_group) {
-            foreach ($match_group as $match) {
-                $stripped_match = preg_replace('/[^\d]/', '', $match);
+        foreach ($matches as $matchGroup) {
+            foreach ($matchGroup as $match) {
+                $strippedMatch = preg_replace('/[^\d]/', '', $match);
 
-                // Is it a valid Luhn one?
-                if (false === $this->luhnValidator->isValid($stripped_match)) {
+                if (false === $this->luhnValidator->isValid($strippedMatch)) {
                     continue;
                 }
 
-                $card_length = strlen($stripped_match);
-                $replacement = str_pad('', $card_length - 4, $this->replacement) . substr($stripped_match, -4);
-
-                // If so, replace the match
+                $cardLength = strlen($strippedMatch);
+                $replacement = str_pad('', $cardLength - 4, $this->replacement) . substr($strippedMatch, -4);
                 $string = str_replace($match, $replacement, $string);
             }
         }
