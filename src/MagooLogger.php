@@ -75,7 +75,7 @@ class MagooLogger
 
     /**
      * @param string $method
-     * @param array $args
+     * @param array $rawArguments
      *
      * @return mixed
      *
@@ -83,31 +83,50 @@ class MagooLogger
      *
      * @throws BadMethodCallException
      */
-    public function __call($method, $args)
+    public function __call($method, $rawArguments)
     {
-        if (in_array($method, $this->logLevels)) {
-            $maskedMessage = $this->maskManager->getMasked($args[0]);
-            $args[0] = $maskedMessage;
-            if (isset($args[1])) {
-                $args[1] = $this->magooArray->getMasked($args[1]);
-            }
-        } elseif ('log' === $method) {
-            $maskedMessage = $this->maskManager->getMasked($args[1]);
-            $args[1] = $maskedMessage;
-            if (isset($args[2])) {
-                $args[2] = $this->magooArray->getMasked($args[2]);
-            }
-        } else {
+        if (!in_array($method, array_merge($this->logLevels, ['log']))) {
             throw new BadMethodCallException(
                 sprintf('%s method does not exist in %s.', $method, get_class($this->logger))
             );
         }
 
+        $arguments = $this->getMaskedArguments($method, $rawArguments);
+
         try {
-            call_user_func_array([$this->logger, $method], $args);
+            call_user_func_array([$this->logger, $method], $arguments);
         } catch (Exception $exc) {
             throw $exc;
         }
+    }
+
+    /**
+     * @param string $method
+     * @param array $rawArguments
+     *
+     * @return array Masked arguments
+     */
+    private function getMaskedArguments($method, $rawArguments)
+    {
+        $arguments = $rawArguments;
+        
+        if (in_array($method, $this->logLevels)) {
+            $maskedMessage = $this->maskManager->getMasked($arguments[0]);
+            $arguments[0] = $maskedMessage;
+            if (isset($arguments[1]) && !empty($arguments[1])) {
+                $arguments[1] = $this->magooArray->getMasked($arguments[1]);
+            }
+
+            return $arguments;
+        }
+        
+        $maskedMessage = $this->maskManager->getMasked($arguments[1]);
+        $arguments[1] = $maskedMessage;
+        if (isset($rawArguments[2]) && !empty($arguments[2])) {
+            $arguments[2] = $this->magooArray->getMasked($arguments[2]);
+        }
+        
+        return $arguments;
     }
 
     /**

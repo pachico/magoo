@@ -30,14 +30,7 @@ $magooLogger->warning($mySensitiveString,
     ]
 );
 
-$magooLogger->log('debug', $mySensitiveString, [
-    'It is time to go to the foo.'
-]);
-
-$magooLogger->foo('debug', $mySensitiveString, [
-    'It is time to go to the foo.'
-]);
-
+$magooLogger->log('debug', $mySensitiveString);
 
 //[2016-09-30 13:01:28] app.WARNING: It is time to go to the bar. {"first":"It is time to go to the bar.","second":"Nothing like Living in barcelona"} []
 //[2016-09-30 13:01:28] app.DEBUG: It is time to go to the bar. ["It is time to go to the bar."] []
