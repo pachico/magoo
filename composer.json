@@ -13,12 +13,13 @@
         "Obfuscation",
         "Redact",
         "Bleep out"
-        
+
     ],
     "authors": [
         {
             "name": "Mariano F.co Benítez Mulet",
             "email": "pachicodev@gmail.com",
+            "homepage": "https://github.com/pachico",
             "role": "Developer"
         }
     ],
@@ -35,7 +36,7 @@
     "minimum-stability": "stable",
     "require": {
         "php": ">=5.4.0",
-        "psr/log": "1.0.*"
+        "psr/log": "^1.0"
     },
     "scripts": {
         "test": "phpunit",
@@ -43,9 +44,12 @@
         "format": "phpcbf -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src/ tests/"
     },
     "require-dev": {
-        "phpunit/phpunit": "4.8.24",
+        "phpunit/phpunit": "^4.8",
         "codacy/coverage": "dev-master",
-        "squizlabs/php_codesniffer": "2.*",
-        "monolog/monolog": "1.19.*"
+        "squizlabs/php_codesniffer": "^2.7",
+        "monolog/monolog": "^1.19"
+    },
+    "config": {
+        "sort-packages": true
     }
 }

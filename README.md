@@ -3,7 +3,6 @@
 [![Build Status](https://travis-ci.org/pachico/magoo.svg?branch=master)](https://travis-ci.org/pachico/magoo) [![codecov.io](https://codecov.io/github/pachico/magoo/coverage.svg?branch=master)](https://codecov.io/github/pachico/magoo?branch=master)
 [![Codacy Badge](https://api.codacy.com/project/badge/grade/226d0d2e91354a8eac06569a115c056c)](https://www.codacy.com/app/pachico/magoo)
 [![Codacy Badge](https://api.codacy.com/project/badge/coverage/226d0d2e91354a8eac06569a115c056c)](https://www.codacy.com/app/pachico/magoo)
-[![StyleCI](https://styleci.io/repos/54375622/shield)](https://styleci.io/repos/54375622)
 [![Code Climate](https://codeclimate.com/github/pachico/magoo/badges/gpa.svg)](https://codeclimate.com/github/pachico/magoo)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/fc76535f-a2c6-41b9-91df-4176da6d60d1/big.png)](https://insight.sensiolabs.com/projects/fc76535f-a2c6-41b9-91df-4176da6d60d1)
 
@@ -53,9 +52,9 @@ This is a generic usage of the library.
 use Pachico\Magoo\Magoo;
 
 $magoo = new Magoo();
-$magoo->maskCreditCards()
-    ->maskEmails()
-    ->maskByRegex('/(email)+/m');
+$magoo->pushCreditCardMask()
+    ->pushEmailMask()
+    ->pushByRegexMask('/(email)+/m');
 
 $mySensitiveString = 'My email is roy@trenneman.com and my credit card is 6011792594656742';
 
@@ -72,7 +71,7 @@ Credit card mask accepts a custom replacement.
 use Pachico\Magoo\Magoo;
 
 $magoo = new Magoo();
-$magoo->maskCreditCards('·');
+$magoo->pushCreditCardMask('·');
 
 $mySensitiveString = 'This is my credit card number: 4111 1111 1111 1111.';
 
@@ -89,7 +88,7 @@ Email mask accepts as optional parameters the replacement for local and domain p
 use Pachico\Magoo\Magoo;
 
 $magoo = new Magoo();
-$magoo->maskEmails('$', '*');
+$magoo->pushEmailMask('$', '*');
 
 $mySensitiveString = 'My email is pachicodev@gmail.com but I need privacy.';
 
@@ -106,7 +105,7 @@ Regex mask will replace matches with strings that are long as each individual ma
 use Pachico\Magoo\Magoo;
 
 $magoo = new Magoo();
-$magoo->maskByRegex('(\d+)', '_');
+$magoo->pushByRegexMask('(\d+)', '_');
 
 $mySensitiveString = 'My telephone number is 639.639.639. Call me at 19:00!';
 
@@ -122,7 +121,7 @@ You might want to use the same instance of Magoo in your application but not the
 use Pachico\Magoo\Magoo;
 
 $magoo = new Magoo();
-$magoo->maskCreditCards()->maskByRegex('(\d+)', '_');
+$magoo->pushCreditCardMask()->pushByRegexMask('(\d+)', '_');
 
 $mySensitiveString = 'My CC is 4111 1111 1111 1111 and my telephone number is 639.639.639.';
 
@@ -161,7 +160,7 @@ class FooMask implements \Pachico\Magoo\Mask\MaskInterface
 }
 $magoo = new Magoo();
 $customMask = new FooMask(['replacement' => 'bar']);
-$magoo->addCustomMask($customMask);
+$magoo->pushMask($customMask);
 
 $mySensitiveString = 'It is time to go to the foo.';
 
