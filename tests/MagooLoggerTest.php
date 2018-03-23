@@ -152,14 +152,13 @@ class MagooLoggerTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($maskedString, $records[0]['message']);
         $this->assertSame($maskedString, $records[0]['context'][0]);
     }
-    
+
     /**
      * Testing that calling invalid methods throw exceptions
      */
     public function testingInvalidLoggerMethodException()
     {
         // Arrange
-        $this->setExpectedException('\BadMethodCallException', 'foo method does not exist in Monolog\Logger.');
         $magoo = new Magoo();
         $magoo->pushEmailMask();
 
@@ -170,7 +169,7 @@ class MagooLoggerTest extends \PHPUnit_Framework_TestCase
         $magooLogger = new MagooLogger($logger, $magoo);
 
         // Act
-        $magooLogger->foo('just a string');
+	$this->assertSame(false, is_callable(array($magooLogger, 'foo')));
     }
 
     public function testingLoggerExceptionPropagation()
