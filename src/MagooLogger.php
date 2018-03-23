@@ -123,7 +123,7 @@ class MagooLogger implements LoggerInterface
      *
      * @return array Masked arguments
      */
-    private function maskLogArguments(string $message, array $context): array
+    private function maskLogArguments($message, array $context)
     {
         return $this->magooArray->getMasked([$message, $context]);
     }
