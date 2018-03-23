@@ -1,5 +1,9 @@
 # Changelog
 
+## next version
+### Fixed
+- MagooLogger implements Psr\Log\LoggerInterface now. The magic function __call was replaced with the real functions of the interface.
+
 ## 2.1.0
 
 ### Added
