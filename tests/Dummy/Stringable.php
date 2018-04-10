@@ -8,7 +8,7 @@
  * @license https://raw.githubusercontent.com/pachico/magoo/master/LICENSE.md MIT
  */
 
-namespace Pachico\Magoo\Dummy;
+namespace Pachico\MagooTest\Dummy;
 
 /**
  * Dummy class to be used in test suite only

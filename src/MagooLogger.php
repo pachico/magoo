@@ -1,13 +1,5 @@
 <?php
 
-/**
- * This file is part of Pachico/Magoo. (https://github.com/pachico/magoo)
- *
- * @link https://github.com/pachico/magoo for the canonical source repository
- * @copyright Copyright (c) 2015-2016 Mariano F.co Benítez Mulet. (https://github.com/pachico/)
- * @license https://raw.githubusercontent.com/pachico/magoo/master/LICENSE.md MIT
- */
-
 namespace Pachico\Magoo;
 
 use Pachico\Magoo\MagooArray;
@@ -61,55 +53,91 @@ class MagooLogger implements LoggerInterface
         return $this->maskManager;
     }
 
+    /**
+     * @param string $message
+     * @param array $context
+     */
     public function emergency($message, array $context = array())
     {
         $maskedArguments = $this->maskLogArguments($message, $context);
         call_user_func_array([$this->logger, 'emergency'], $maskedArguments);
     }
 
+    /**
+     * @param string $message
+     * @param array $context
+     */
     public function alert($message, array $context = array())
     {
         $maskedArguments = $this->maskLogArguments($message, $context);
         call_user_func_array([$this->logger, 'alert'], $maskedArguments);
     }
 
+    /**
+     * @param string $message
+     * @param array $context
+     */
     public function critical($message, array $context = array())
     {
         $maskedArguments = $this->maskLogArguments($message, $context);
         call_user_func_array([$this->logger, 'critical'], $maskedArguments);
     }
 
+    /**
+     * @param string $message
+     * @param array $context
+     */
     public function error($message, array $context = array())
     {
         $maskedArguments = $this->maskLogArguments($message, $context);
         call_user_func_array([$this->logger, 'error'], $maskedArguments);
     }
 
+    /**
+     * @param string $message
+     * @param array $context
+     */
     public function warning($message, array $context = array())
     {
         $maskedArguments = $this->maskLogArguments($message, $context);
         call_user_func_array([$this->logger, 'warning'], $maskedArguments);
     }
 
-
+    /**
+     * @param string $message
+     * @param array $context
+     */
     public function notice($message, array $context = array())
     {
         $maskedArguments = $this->maskLogArguments($message, $context);
         call_user_func_array([$this->logger, 'notice'], $maskedArguments);
     }
 
+    /**
+     * @param string $message
+     * @param array $context
+     */
     public function info($message, array $context = array())
     {
         $maskedArguments = $this->maskLogArguments($message, $context);
         call_user_func_array([$this->logger, 'info'], $maskedArguments);
     }
 
+    /**
+     * @param string $message
+     * @param array $context
+     */
     public function debug($message, array $context = array())
     {
         $maskedArguments = $this->maskLogArguments($message, $context);
         call_user_func_array([$this->logger, 'debug'], $maskedArguments);
     }
 
+    /**
+     * @param string $level
+     * @param string $message
+     * @param array $context
+     */
     public function log($level, $message, array $context = array())
     {
         $maskedArguments = $this->maskLogArguments($message, $context);

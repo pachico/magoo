@@ -8,22 +8,20 @@
  * @license https://raw.githubusercontent.com/pachico/magoo/master/LICENSE.md MIT
  */
 
-namespace Pachico\Magoo;
+namespace Pachico\MagooTest;
 
-use Pachico\Magoo\Dummy;
+use Pachico\Magoo\Magoo;
+use Pachico\Magoo\MagooArray;
+use Pachico\MagooTest\Dummy;
+use stdClass;
 
-/**
- * Test MagooArray class by passing arrays and see the masked output
- */
 class MagooArrayTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * Testing that class iterates over given array
-     */
-    public function testGetMasked()
+    
+    public function testGetMaskedRedactsArrayCorrectly()
     {
         // Arrange
-        $object = new \stdClass();
+        $object = new stdClass();
         $object->foo = 'bar';
         $object->bin = 'din';
         $object->arr = ['foo', 'faa', 'fee'];
@@ -82,7 +80,6 @@ class MagooArrayTest extends \PHPUnit_Framework_TestCase
 
         $magoo = new Magoo();
         $magoo->pushEmailMask()->pushCreditCardMask();
-
         $magooArray = new MagooArray($magoo);
 
         // Act
@@ -92,20 +89,15 @@ class MagooArrayTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($expectedOutputArray, $outputArray);
     }
 
-    /**
-     * Test that getMaskManager returns Magoo or compatible
-     */
-    public function testGetMaskManager()
+    public function testGetMaskManagerReturnsManager()
     {
         // Arrange
         $magoo = new Magoo();
         $magoo->pushEmailMask()->pushCreditCardMask();
-
         $magooArray = new MagooArray($magoo);
-
         // Act
-
+        $output = $magooArray->getMaskManager();
         // Assert
-        $this->assertSame($magoo, $magooArray->getMaskManager());
+        $this->assertSame($magoo, $output);
     }
 }

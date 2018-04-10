@@ -8,56 +8,64 @@
  * @license https://raw.githubusercontent.com/pachico/magoo/master/LICENSE.md MIT
  */
 
-namespace Pachico\Magoo\Mask;
+namespace Pachico\MagooTest\Mask;
+
+use Pachico\Magoo\Mask\Email;
 
 class EmailTest extends \PHPUnit_Framework_TestCase
 {
-    protected $validEmails = [
-        'To donate write to ted@crilly.com, please'
-        => 'To donate write to ***@**********, please',
-        'In case of dragons, report to dougal@mcguire.net'
-        => 'In case of dragons, report to ******@***********',
-        'Booz expert: jack@hackett.org'
-        => 'Booz expert: ****@***********',
-        'To get more sandwitches, mail me at mrs@doyle.co.uk'
-        => 'To get more sandwitches, mail me at ***@***********',
-        'To report any of the above, contact me at bishop@brennan.biz'
-        => 'To report any of the above, contact me at ******@***********'
-    ];
-    protected $noValidEmails = [
-        'This is just a random string',
-        'It almost looks like an email: asdas@',
-        'This is almost interesting: foo.bar.com'
-    ];
-    protected $object;
+
+    /**
+     * @var Email
+     */
+    private $sut;
 
     protected function setUp()
     {
-        $this->object = new Email(
-            ['localReplacement' => '*', 'domainReplacement' => '*']
-        );
+        $this->sut = new Email(['localReplacement' => '*', 'domainReplacement' => '*']);
     }
 
-    public function testMask()
+    public function dataProviderInputExpectedOutput()
     {
-        foreach ($this->validEmails as $input => $output) {
-            $this->assertSame($this->object->mask($input), $output);
-        }
-
-        foreach ($this->noValidEmails as $input) {
-            $this->assertSame($this->object->mask($input), $input);
-        }
+        return [
+            ['To donate write to ted@crilly.com, please',
+                'To donate write to ***@**********, please'],
+            ['In case of dragons, report to dougal@mcguire.net', 'In case of dragons, report to ******@***********'],
+            ['Booz expert: jack@hackett.org', 'Booz expert: ****@***********'],
+            ['To get more sandwitches, mail me at mrs@doyle.co.uk',
+                'To get more sandwitches, mail me at ***@***********'],
+            ['To report any of the above, contact me at bishop@brennan.biz',
+                'To report any of the above, contact me at ******@***********'],
+            ['This is just a random string', 'This is just a random string'],
+            ['It almost looks like an email: asdas@', 'It almost looks like an email: asdas@'],
+            ['This is almost interesting: foo.bar.com', 'This is almost interesting: foo.bar.com'],
+        ];
     }
 
-    public function testConstruct()
+    /**
+     * @dataProvider dataProviderInputExpectedOutput
+     *
+     * @param string $input
+     * @param string $expectedOutput
+     */
+    public function testMaskRedactsCorrectly($input, $expectedOutput)
     {
-        $this->object = new Email(['localReplacement' => '*']);
-        $this->assertSame($this->object->mask('bernard@black.com'), '*******@black.com');
+        // Arrange
+        // Act
+        $output = $this->sut->mask($input);
+        // Assert
+        $this->assertSame($expectedOutput, $output);
+    }
 
-        $this->object = new Email(['domainReplacement' => '*']);
-        $this->assertSame($this->object->mask('manny@bianco.co.uk'), 'manny@************');
+    public function testReplacementsAreUsedForRedacting()
+    {
+        $this->sut = new Email(['localReplacement' => '*']);
+        $this->assertSame($this->sut->mask('bernard@black.com'), '*******@black.com');
 
-        $this->object = new Email();
-        $this->assertSame($this->object->mask('fran@katzenjammer.net'), '****@katzenjammer.net');
+        $this->sut = new Email(['domainReplacement' => '*']);
+        $this->assertSame($this->sut->mask('manny@bianco.co.uk'), 'manny@************');
+
+        $this->sut = new Email();
+        $this->assertSame($this->sut->mask('fran@katzenjammer.net'), '****@katzenjammer.net');
     }
 }

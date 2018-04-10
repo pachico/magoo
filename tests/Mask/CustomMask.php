@@ -8,7 +8,9 @@
  * @license https://raw.githubusercontent.com/pachico/magoo/master/LICENSE.md MIT
  */
 
-namespace Pachico\Magoo\Mask;
+namespace Pachico\MagooTest\Mask;
+
+use Pachico\Magoo\Mask\MaskInterface;
 
 class CustomMask implements MaskInterface
 {
