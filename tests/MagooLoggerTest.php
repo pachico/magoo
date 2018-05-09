@@ -1,19 +1,10 @@
 <?php
 
-/**
- * This file is part of Pachico/Magoo. (https://github.com/pachico/magoo)
- *
- * @link https://github.com/pachico/magoo for the canonical source repository
- * @copyright Copyright (c) 2015-2016 Mariano F.co Benítez Mulet. (https://github.com/pachico/)
- * @license https://raw.githubusercontent.com/pachico/magoo/master/LICENSE.md MIT
- */
-
 namespace Pachico\MagooTest;
 
 use Pachico\Magoo\Magoo;
 use Pachico\Magoo\MagooLogger;
 use PHPUnit_Framework_TestCase;
-use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 
 class MagooLoggerTest extends PHPUnit_Framework_TestCase
@@ -30,7 +21,7 @@ class MagooLoggerTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->logger = $this->getMockForAbstractClass(LoggerInterface::class);
+        $this->logger = $this->getMockForAbstractClass('Psr\Log\LoggerInterface');
         $this->magoo = new Magoo();
         $this->magoo->pushEmailMask();
         $this->sut = new MagooLogger($this->logger, $this->magoo);
@@ -53,7 +44,7 @@ class MagooLoggerTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider dataProviderLogLevels
      */
-    public function testLoggingLogLevelsCallMagooAndRedactsContent(string $logLevel)
+    public function testLoggingLogLevelsCallMagooAndRedactsContent($logLevel)
     {
         // Arrange
         $rawString = 'My email is foo@bar.com.';
@@ -74,7 +65,7 @@ class MagooLoggerTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider dataProviderLogLevels
      */
-    public function testLogCallMagooAndRedactsContent(string $logLevel)
+    public function testLogCallMagooAndRedactsContent($logLevel)
     {
         // Arrange
         $rawString = 'My email is foo@bar.com.';
