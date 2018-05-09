@@ -1,13 +1,5 @@
 <?php
 
-/**
- * This file is part of Pachico/Magoo. (https://github.com/pachico/magoo)
- *
- * @link https://github.com/pachico/magoo for the canonical source repository
- * @copyright Copyright (c) 2015-2016 Mariano F.co Benítez Mulet. (https://github.com/pachico/)
- * @license https://raw.githubusercontent.com/pachico/magoo/master/LICENSE.md MIT
- */
-
 namespace Pachico\Magoo;
 
 use \InvalidArgumentException;
@@ -25,7 +17,7 @@ class Magoo implements MaskManagerInterface
     protected $masks = [];
 
     /**
-     * Adds (or rewrites) Mask\Creditcard mask
+     * Adds (or rewrites) Mask\CreditCard mask
      *
      * @param string $replacement Character to replace matches
      *
@@ -46,7 +38,7 @@ class Magoo implements MaskManagerInterface
      * Adds Mask\Regex mask
      *
      * @param string $regex Regex to be executed
-     * @param string $replacement Character to replacen  matches
+     * @param string $replacement Character to replace matches
      *
      * @return Magoo
      */
